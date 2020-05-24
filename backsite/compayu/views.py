@@ -31,6 +31,8 @@ def thought(req):
                 obj = item.get_dict()
                 thought_list.append(obj)
             ret['data'] = thought_list
+        else:
+            ret['data'] = '您的输入无法识别'
         res = HttpResponse(json.dumps(ret, ensure_ascii=False))
         return res
     if req.method == 'POST':

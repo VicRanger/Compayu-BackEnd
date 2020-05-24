@@ -181,5 +181,7 @@ APPEND_SLASH = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '../static')
+STATIC_URL = "/static/"
+# print("STATIC_ASSETS_URL: "+STATIC_URL)
+STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
+print("STATIC_ROOT: "+STATIC_ROOT)
