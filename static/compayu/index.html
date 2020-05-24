@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <title>留言板</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ol,ul {
+            padding-left: 2rem;
+        }
+
+        input {
+            margin: 0.5rem;
+        }
+
+        .btn {
+            font-size: 2rem;
+        }
+
+        h3 {
+            margin: 1rem -1rem;
+        }
+
+        #send,
+        #query {
+            margin: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="send">
+            <h3>发送面板</h3>
+            <div>请输入文字</div>
+            <div>
+                <textarea v-model="sendText"></textarea>
+            </div>
+            <div>请选择类型</div>
+            <div>
+                <span v-for="(name,ind) in names">
+                    <input v-model="sendName" :value="name" type="radio" :id="`s-${name}`">
+                    <label :for="`s-${name}`">{{names_cn[ind]}}</label>
+                </span>
+            </div>
+            <input @click="send" class="btn" type="button" id="s-btn" value="发送">
+            <span v-if="sendMsg.length>0">{{sendMsg}}</span>
+        </div>
+        <hr>
+        <div id="query">
+            <h3>查询面板</h3>
+            <div>请输入数量：</div>
+            <div>
+                <input v-model="queryNumber" type="number" value="1" min="0" step="1">
+            </div>
+            <div>请选择类型：</div>
+            <div>
+                <span v-for="(name,ind) in names">
+                    <input v-model="queryName" :value="name" type="radio" :id="`q-${name}`">
+                    <label :for="`q-${name}`">{{names_cn[ind]}}</label>
+                </span>
+            </div>
+            <input @click="query" class="btn" type="button" id="q-btn" value="查询">
+            <div>查询结果（{{queryMsg}}）：</div>
+            <ol>
+                <li v-for="_res in queryResult">
+                    <span>类型：{{_res.name}} &nbsp; 文本内容：{{_res.text}} <br>
+                        发送时间：{{_res.add_time}}
+                    </span>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <script>
+        var BASE_URL = 'http://127.0.0.1:8000/compayu'
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                queryMsg: '查询结果在查询后即可显示',
+                queryResult: [],
+                sendName: 'happy',
+                sendText: '',
+                sendMsg: '',
+                queryName: 'happy',
+                queryNumber: 1,
+                names: ['happy', 'angry', 'sad', 'afraid'],
+                names_cn: ['快乐', '愤怒', '悲伤', '恐惧']
+            },
+            methods: {
+                send: function (e) {
+                    sendThought(this);
+                },
+                query: function (e) {
+                    queryThought(this);
+                }
+            }
+        })
+
+        function sendThought(vue) {
+            console.log('正在发送');
+            vue.sendMsg = '正在发送'
+            axios.post(BASE_URL+'/thought/',{
+                name:vue.sendName,
+                text:vue.sendText,
+                face:"",
+                nickname:"",
+                img:""
+            }).then((res)=>{
+                console.log(res);
+                vue.sendMsg = '发送成功';
+                setTimeout(()=>{vue.sendMsg=''},2000);
+            })
+        }
+
+        function queryThought(vue) {
+            console.log('正在查询');
+            axios.get(BASE_URL+'/thought',{
+                params:{
+                    name:vue.queryName,
+                    number:vue.queryNumber
+                }
+            }).then((res)=>{
+                console.log(res.data);
+                vue.queryResult = res.data.data;
+                console.log(vue.queryResult);
+            })
+        }
+    </script>
+</body>
+
+</html>
