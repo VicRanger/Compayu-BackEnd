@@ -25,7 +25,7 @@ SECRET_KEY = '3tyt)@rb#39wsp_png8z0^1eh+b+v&p(dsvj*@z@1$)uaub-c*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink"]
+ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink", "cdn.wzz.ink"]
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'werkzeug_debugger_runserver',
     'django_extensions',
     'channels',
+    'fei', #Fei-app
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -71,7 +72,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     "http://127.0.0.1:5500",
-    "https://www.wzz.ink"
+    "https://www.wzz.ink",
+    "https://cdn.wzz.ink",
 )
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -137,9 +139,19 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     },
+
+    #  'db_Fei': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'compayu_dbl_fei',
+    #     'USER': 'root',
+    #     'PASSWORD': '1duolaSQL$',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306',
+    # },
 }
 DATABASE_APPS_MAPPING = {
-    'compayu': 'db_compayu'
+    'compayu': 'db_compayu',
+    'fei': 'db_compayu',
 }
 
 DATABASE_ROUTERS = ['backsite.db_router.DbRouter']
@@ -185,3 +197,7 @@ STATIC_URL = "/static/"
 # print("STATIC_ASSETS_URL: "+STATIC_URL)
 STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
 print("STATIC_ROOT: "+STATIC_ROOT)
+
+
+#飞哥专场
+AUTH_USER_MODEL = 'fei.UserProfile' #使django自带user不起作用，用自己重写的
