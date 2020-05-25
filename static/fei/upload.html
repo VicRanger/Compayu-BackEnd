@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<style>
+
+    .file input {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+
+   
+    img{
+         width: 80px;
+         height: 80px;
+         padding-left: 15px;
+         padding-bottom: 10px;
+         position: absolute;
+       }
+   </style>
+
+
+<body>
+    <div id="app">
+
+        <!-- form 是为了上传完成后自动刷新 -->
+        <!-- <form>  -->
+            <div class = file>
+                <img class="upload_btn" :src="link"  >
+                <input type="file" id="picture" accept=".jpg, .png .jpeg .gif .jfif" @change="add">
+            </div>
+            <!-- <button @click="add"> 上传图片 </button> -->
+        <!-- </form> -->
+
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                link: "http://q9ekh65im.bkt.clouddn.com/update-icon.png",
+            },
+            methods: {
+                add(){
+                    let formData = new FormData()  
+                    var image = document.getElementById('picture').files[0];
+
+                    //限制上传图片大小
+                    if(image.size > (10*1024*1024)){ 
+                        alert('上传图片大小不能超过 10MB!');
+                        return;
+                    }
+
+                    //限制后缀名
+                    imageName = image.name
+                    var index = imageName.lastIndexOf(".") //取文件名开始到最后一个点的长度
+                    var filesuffix = imageName.substring(index+1, imageName.length) //后缀名
+                    isImg = ["jpg", "png", "jpeg", "gif", "jfif"].indexOf(filesuffix)
+                    if(isImg == -1){
+                        alert('请上传图片文件！');
+                        return;
+                    }
+
+                    formData.append('file', image, imageName)
+                    console.log(formData.get('file')) 
+                    var that = this
+                    axios({
+                        url:'http://127.0.0.1:8000/upload/',
+                        method:'post',
+                        data:formData,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            }
+                    }).then((res) => {
+                        alert(res.data.message)
+                        this.link =  res.data.link
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
