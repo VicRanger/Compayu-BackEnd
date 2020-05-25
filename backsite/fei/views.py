@@ -3,18 +3,18 @@ from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from .serializers import ThoughtSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import UserProfile, Thought, Media
+from compayu.models import UserProfile, Thought, Media
 from django.conf import settings
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django import forms
 import time
 
-@csrf_exempt
+
 
 
 # Create your views here.
-
+@csrf_exempt
 class ThoughtAPIView(APIView):
     def get(self, request, format=None):
         thought_id = self.request.query_params.get("id", 0)
@@ -22,7 +22,7 @@ class ThoughtAPIView(APIView):
         thoughts_serializer = ThoughtSerializer(thoughts, many=True)
         return Response(thoughts_serializer.data)
 
-
+@csrf_exempt
 class postImg(APIView):
     def post(self,request):
         res={}

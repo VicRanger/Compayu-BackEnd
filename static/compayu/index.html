@@ -69,8 +69,8 @@
             <div>查询结果（{{queryMsg}}）：</div>
             <ol>
                 <li v-for="_res in queryResult">
-                    <span>类型：{{_res.name}} &nbsp; 文本内容：{{_res.text}} <br>
-                        发送时间：{{_res.add_time}}
+                    <span>类型：{{_res.type_raw}} &nbsp; 文本内容：{{_res.text}} <br>
+                        发送时间：{{_res.create_time}}
                     </span>
                 </li>
             </ol>
@@ -105,7 +105,7 @@
             console.log('正在发送');
             vue.sendMsg = '正在发送'
             axios.post(BASE_URL+'/thought/',{
-                name:vue.sendName,
+                type_raw:vue.sendName,
                 text:vue.sendText,
                 face:"",
                 nickname:"",
@@ -121,7 +121,7 @@
             console.log('正在查询');
             axios.get(BASE_URL+'/thought',{
                 params:{
-                    name:vue.queryName,
+                    type:vue.queryName,
                     number:vue.queryNumber
                 }
             }).then((res)=>{

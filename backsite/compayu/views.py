@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Thought
+from compayu.models import Thought
 # Create your views here.
 from django.http import JsonResponse, HttpResponse, FileResponse, StreamingHttpResponse
 from django.core import serializers
@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template import Template, Context
 import time
 import os
-from .util import writeThought
+from compayu.util import writeThought
 
 
 @csrf_exempt
@@ -28,7 +28,7 @@ def thought(req):
                 tail = min(int(query_data['number']), thoughts.count())
             thoughts = thoughts[:tail]
             for item in thoughts:
-                obj = item.get_dict()
+                obj = item.json()
                 thought_list.append(obj)
             ret['data'] = thought_list
         else:
@@ -38,9 +38,9 @@ def thought(req):
     if req.method == 'POST':
         query_data = json.loads(req.body.decode('UTF-8'))
         print(query_data)
-        writeThought(query_data)
+        obj = writeThought(query_data)
         obj.save()
-        ret['data'] = obj.get_dict()
+        ret['data'] = obj.json()
         print(ret)
         return HttpResponse(json.dumps(ret, ensure_ascii=False))
     ret['data'] = 'NONE'

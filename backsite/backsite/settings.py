@@ -25,13 +25,9 @@ SECRET_KEY = '3tyt)@rb#39wsp_png8z0^1eh+b+v&p(dsvj*@z@1$)uaub-c*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink"]
-=======
 ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink", "cdn.wzz.ink"]
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
->>>>>>> Fei-dev
 
 
 # Application definition
@@ -48,7 +44,7 @@ INSTALLED_APPS = [
     'werkzeug_debugger_runserver',
     'django_extensions',
     'channels',
-    'fei', #Fei-app
+    'fei',  # Fei-app
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -71,7 +67,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-# 
+#
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
@@ -142,6 +138,9 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
+        'OPTIONS': {
+            "init_command": "SET foreign_key_checks = 0;",
+        }
     },
 
     #  'db_Fei': {
@@ -183,15 +182,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'zh-Hans'
-
 TIME_ZONE = 'Asia/Shanghai'
-
-USE_I18N = True
-
-USE_L10N = True
-
 USE_TZ = False
-
+USE_I18N = True
+USE_L10N = True
 APPEND_SLASH = True
 
 # Static files (CSS, JavaScript, Images)
@@ -202,16 +196,16 @@ STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
 print("STATIC_ROOT: "+STATIC_ROOT)
 
 
-#飞哥专场
-AUTH_USER_MODEL = 'fei.UserProfile' #使django自带user不起作用，用自己重写的
+# 飞哥专场
+AUTH_USER_MODEL = 'compayu.UserProfile'  # 使django自带user不起作用，用自己重写的
 
-##七牛云
-QINIU_ACCESS_KEY = '3j71vJK9qHMV9olqMfqdixed6_mOFBayKdlaieml' #AK
-QINIU_SECRET_KEY = '2rHbG7oWJue_X7Zqw8eyAa6X7JNmQdGebviRnlER' #SK
-QINIU_BUCKET_NAME = 'compayu-media'  #存储空间的名字
+# 七牛云
+QINIU_ACCESS_KEY = '3j71vJK9qHMV9olqMfqdixed6_mOFBayKdlaieml'  # AK
+QINIU_SECRET_KEY = '2rHbG7oWJue_X7Zqw8eyAa6X7JNmQdGebviRnlER'  # SK
+QINIU_BUCKET_NAME = 'compayu-media'  # 存储空间的名字
 QINIU_BUCKET_DOMAIN = 'https://cdn.wzz.ink/'
-QINIU_SECURE_URL = True      #使用https
-DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage' # 只用七牛托管动态生成的文件（例如用户上传的文件）
+QINIU_SECURE_URL = True  # 使用https
+DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'  # 只用七牛托管动态生成的文件（例如用户上传的文件）
 
 MEDIA_URL = QINIU_BUCKET_DOMAIN
 MEDIA_ROOT = QINIU_BUCKET_DOMAIN
