@@ -22,30 +22,6 @@ class ThoughtAPIView(APIView):
         thoughts_serializer = ThoughtSerializer(thoughts, many=True)
         return Response(thoughts_serializer.data)
 
-def upload(request):
-    return render(request, "index.html")
-
-# def postImg(request):
-
-#     Media.objects.create(
-#         picture = request.data["file"]
-#     )
-
-#     return Response({
-#         "success": False,
-#         "msg": "新增图片",
-#         "results": ""
-#     }, )
-
-# def uploadImg(request):
-#     date = time.strftime("%Y%m%d",time.localtime(time.time()))
-#     if request.method == 'POST':
-#         new_img = Media(
-#             picture = request.FILES.get('img'),
-#             link = 'q9ekh65im.bkt.clouddn.com/' + 'pictures/' + date + '/' + request.FILES.get('img').name
-#         )
-#         new_img.save()
-#     return render(request, 'upload.html')
 
 class postImg(APIView):
     def post(self,request):

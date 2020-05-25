@@ -201,3 +201,14 @@ print("STATIC_ROOT: "+STATIC_ROOT)
 
 #飞哥专场
 AUTH_USER_MODEL = 'fei.UserProfile' #使django自带user不起作用，用自己重写的
+
+##七牛云
+QINIU_ACCESS_KEY = '3j71vJK9qHMV9olqMfqdixed6_mOFBayKdlaieml' #AK
+QINIU_SECRET_KEY = '2rHbG7oWJue_X7Zqw8eyAa6X7JNmQdGebviRnlER' #SK
+QINIU_BUCKET_NAME = 'compayu-media'  #存储空间的名字
+QINIU_BUCKET_DOMAIN = 'https://cdn.wzz.ink/'
+QINIU_SECURE_URL = True      #使用https
+DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage' # 只用七牛托管动态生成的文件（例如用户上传的文件）
+
+MEDIA_URL = QINIU_BUCKET_DOMAIN
+MEDIA_ROOT = QINIU_BUCKET_DOMAIN
