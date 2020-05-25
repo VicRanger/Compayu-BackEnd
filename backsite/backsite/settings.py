@@ -26,8 +26,6 @@ SECRET_KEY = '3tyt)@rb#39wsp_png8z0^1eh+b+v&p(dsvj*@z@1$)uaub-c*'
 DEBUG = True
 
 ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink"]
-# STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
-# STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 
 
 # Application definition
@@ -66,7 +64,7 @@ CHANNEL_LAYERS = {
         # },
     },
 }
-# CORS
+# 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
@@ -182,6 +180,5 @@ APPEND_SLASH = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = "/static/"
-# print("STATIC_ASSETS_URL: "+STATIC_URL)
 STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
 print("STATIC_ROOT: "+STATIC_ROOT)
