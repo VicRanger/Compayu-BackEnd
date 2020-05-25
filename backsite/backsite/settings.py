@@ -25,7 +25,13 @@ SECRET_KEY = '3tyt)@rb#39wsp_png8z0^1eh+b+v&p(dsvj*@z@1$)uaub-c*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink"]
+=======
+ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink", "cdn.wzz.ink"]
+# STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
+# STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
+>>>>>>> Fei-dev
 
 
 # Application definition
@@ -42,6 +48,7 @@ INSTALLED_APPS = [
     'werkzeug_debugger_runserver',
     'django_extensions',
     'channels',
+    'fei', #Fei-app
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -69,7 +76,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     "http://127.0.0.1:5500",
-    "https://www.wzz.ink"
+    "https://www.wzz.ink",
+    "https://cdn.wzz.ink",
 )
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -135,9 +143,19 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     },
+
+    #  'db_Fei': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'compayu_dbl_fei',
+    #     'USER': 'root',
+    #     'PASSWORD': '1duolaSQL$',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306',
+    # },
 }
 DATABASE_APPS_MAPPING = {
-    'compayu': 'db_compayu'
+    'compayu': 'db_compayu',
+    'fei': 'db_compayu',
 }
 
 DATABASE_ROUTERS = ['backsite.db_router.DbRouter']
@@ -182,3 +200,18 @@ APPEND_SLASH = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
 print("STATIC_ROOT: "+STATIC_ROOT)
+
+
+#飞哥专场
+AUTH_USER_MODEL = 'fei.UserProfile' #使django自带user不起作用，用自己重写的
+
+##七牛云
+QINIU_ACCESS_KEY = '3j71vJK9qHMV9olqMfqdixed6_mOFBayKdlaieml' #AK
+QINIU_SECRET_KEY = '2rHbG7oWJue_X7Zqw8eyAa6X7JNmQdGebviRnlER' #SK
+QINIU_BUCKET_NAME = 'compayu-media'  #存储空间的名字
+QINIU_BUCKET_DOMAIN = 'https://cdn.wzz.ink/'
+QINIU_SECURE_URL = True      #使用https
+DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage' # 只用七牛托管动态生成的文件（例如用户上传的文件）
+
+MEDIA_URL = QINIU_BUCKET_DOMAIN
+MEDIA_ROOT = QINIU_BUCKET_DOMAIN
