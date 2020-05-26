@@ -1,6 +1,8 @@
 # Compayu-BackEnd
 
 直真我来了！！！
+飞哥我来了！！！
+
 ### 数据库定义指南
 #### 指定Router
 在`backsite/backsite/settings.py`中找到`DATABASE_APPS_MAPPING`，如果你的`app`定义的`config`中的`name`为`xxx`，加入一条`'xxx':'db_compayu'`。
