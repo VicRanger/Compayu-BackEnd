@@ -22,7 +22,6 @@ class ThoughtAPIView(APIView):
         thoughts_serializer = ThoughtSerializer(thoughts, many=True)
         return Response(thoughts_serializer.data)
 
-@csrf_exempt
 class postImg(APIView):
     def post(self,request):
         res={}

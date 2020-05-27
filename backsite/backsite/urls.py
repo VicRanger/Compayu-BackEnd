@@ -22,6 +22,6 @@ from fei.views import postImg #fei
 urlpatterns = [
     path('compayu/',include('compayu.urls')),
     path('admin/', admin.site.urls),
-    path('upload/', postImg, name='imageUpload'), #七牛云图片上传-fei
+    path('upload/', postImg.as_view(), name='imageUpload'), #七牛云图片上传-fei
 ]
 urlpatterns += static('static-url/',document_root=settings.STATIC_ROOT)
