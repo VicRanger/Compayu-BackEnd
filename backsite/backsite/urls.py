@@ -13,15 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin;
-from django.urls import include,path;
+from django.contrib import admin
+from django.urls import include, path
 from django.conf.urls.static import static
 from . import settings
 from fei.views import postImg #fei
+from . import views
 
 urlpatterns = [
     path('compayu/',include('compayu.urls')),
     path('admin/', admin.site.urls),
     path('upload/', postImg, name='imageUpload'), #七牛云图片上传-fei
+
+    path('user/', include('user.urls')),  # BASEDIR/user/
+    path('', views.indexPage),  # BASEDIR
+    path('website/', include('website.urls')),  # BASEDIR/website/
+    path('api/', include('api.urls')), # BASEDIR/api/
 ]
-urlpatterns += static('static-url/',document_root=settings.STATIC_ROOT)
+urlpatterns += static('static-url/', document_root=settings.STATIC_ROOT)

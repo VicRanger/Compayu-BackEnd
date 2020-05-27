@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <title>-Compayu- | 情绪分享类网站</title>
+</head>
+<body onload="pageInit()">
+	<!--设置FAVICON-->
+	<link rel="icon" href="{% static 'img/favicon.ico'%}">
+	<!--样式表-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/indexPage.css' %}"/>
+	
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'js/vue.js' %}"></script>
+	
+	{% include 'part_topNav.html' %}
+	
+	<!-- js -->
+	<script src="{% static 'js/indexPage.js' %}"></script>
+	<script src="{% static 'js/global.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* CSS for PC Web Browser*/
+
+html{height:100%}
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	background: aqua;
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	background-size: 100%;
+}

@@ -1,0 +1,76 @@
+from django.http import JsonResponse
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+
+# Create your views here.
+from backsite.settings import LOGIN_TIME
+from backsite.token import getUserByToken
+from user import models
+
+
+def setting(request):
+    response = {}
+    what = request.POST.get("what", '')
+    if what == '':
+        response['msg'] = '未获取参数'
+        return JsonResponse(response)
+    if what == 'logintime':
+        response['data'] = LOGIN_TIME
+        response['msg'] = '登录保存时间'
+    return JsonResponse(response)
+
+
+def getuserinfo(request):
+    response = {'msg': '用户数据API', 'code': '200'}
+    what = request.POST.get("what", '')
+    if what == '':
+        response['msg'] = '未获取参数'
+        return JsonResponse(response)
+    else:
+        token = request.POST.get('token')
+        uid = getUserByToken(token)
+        if what == 'avatar':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                user = models.User.objects.filter(id=uid)[0]
+                response['msg'] = '用户头像链接'
+                response['data'] = str(user.avatar)
+                response['code'] = '200'
+            return JsonResponse(response)
+        elif what == 'nickname':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                user = models.User.objects.filter(id=uid)[0]
+                response['msg'] = '用户昵称'
+                response['data'] = str(user.nickname)
+                response['code'] = '200'
+            return JsonResponse(response)
+        elif what == 'user':
+            # 序列化User
+            return JsonResponse(response)
+    return JsonResponse(response)
+
+
+# 检查token是否有效，是否过期
+def checktoken(request):
+    response = {'msg': 'token有效性API', 'code': '200'}
+    token = request.POST.get('token', '')
+    if token != '':
+        uid = getUserByToken(token)
+        if uid != 0 and uid != -1:
+            response['data'] = 'True'
+        else:
+            response['data'] = 'False'
+    return JsonResponse(response)

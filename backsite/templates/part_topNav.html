@@ -1,0 +1,32 @@
+{% load static %}
+<!--样式表-->
+<link rel="stylesheet" type="text/css" href="{%static 'css/part_topNav.css' %}"/>
+<!--顶部导航栏-->
+<div id="topNav" onmouseover="topNavSlide(1)" onmouseleave="topNavSlide(2)">
+	<div id="topNav_slider">
+		<div id="topNav_icon" onclick="jumpToIndex()">
+			<img id="topNav_icon_img" src="{% static 'img/Icon.png' %}" />
+			<div id="topNav_slogan">
+				<p id="topNav_slogan_p">-Compayu-</p>
+			</div>
+		</div>
+		<div id="topNav_buttons">
+			<button class="topNav_navButton" id="aboutUs" onclick="jumpToAboutUs()" title="开发者信息">关于我们</button>
+			<button class="topNav_navButton" id="userCenter" onclick="jumpToUsercenter()" title="管理您的账号">用户中心</button>
+			<button class="topNav_navButton" id="toIndex" onclick="jumpToIndex()" title="返回首页">访问首页</button>				
+		</div>
+		<!--没有检测到登录信息-->
+		<div id="topNav_RegisterOrLogin">
+			<button id="topNav_regester" onclick="jumpToLogin()" title="登录您的账号，解锁更多功能">登录</button>
+			<div style="height: 50px;margin-top: 15px;width: 2px;border-radius: 15%;background-color: dimgrey;"></div>
+			<button id="topNav_login" onclick="jumpToRegister()" title="注册账号，享受更多功能">注册</button>
+		</div>
+		<!--检测到登录信息后，显示头像和昵称-->
+		<div id="userinfoContainer" title="管理我的账号" onclick="openUserList()">
+			<img id="topNav_avatar" src="{% static 'img/defaultAvatar.png' %}"/>
+			<div id="topNav_nickname_container">
+				<p id="topNav_nickname">昵称</p>
+			</div>
+		</div>
+	</div>
+</div>

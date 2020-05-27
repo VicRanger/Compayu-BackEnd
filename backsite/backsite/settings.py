@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'channels',
     'fei',  # Fei-app
+    'user',  # 用户管理
+    'website',  # 网站相关信息
+    'api',  # 接口，获取各种数据信息
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -96,7 +99,6 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
-ALLOWED_HOSTS = ['*']
 
 ROOT_URLCONF = 'backsite.urls'
 
@@ -155,6 +157,9 @@ DATABASES = {
 DATABASE_APPS_MAPPING = {
     'compayu': 'db_compayu',
     'fei': 'db_compayu',
+    'user': 'db_compayu',
+    'website': 'db_compayu',
+    'api': 'db_compayu',
 }
 
 DATABASE_ROUTERS = ['backsite.db_router.DbRouter']
@@ -209,3 +214,26 @@ DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'  # 只用七牛托�
 
 MEDIA_URL = QINIU_BUCKET_DOMAIN
 MEDIA_ROOT = QINIU_BUCKET_DOMAIN
+
+# pzl
+# 前端cookie保留时长,单位是毫秒，记得乘1000
+LOGIN_TIME = 60 * 30 * 1000
+
+# 发送验证邮件设置
+# SMTP授权码 EQKWTAFMTXISNETK
+EMAIL_USE_SSL = True
+
+EMAIL_HOST = 'smtp.163.com'
+
+EMAIL_PORT = 465
+
+EMAIL_HOST_USER = "y_chromosome@163.com"  # 帐号
+
+EMAIL_HOST_PASSWORD = "EQKWTAFMTXISNETK"  # 授权码（****）
+# 默认邮件
+DEFAULT_FROM_EMAIL = 'compayu <y_chromosome@163.com>'
+
+# 云片网APIKEY
+APIKEY = "c0c26a14c24007f6e53545193a48e332"
+# 开启验证短信, 部署前记得打开
+APIKEYUSED = True
