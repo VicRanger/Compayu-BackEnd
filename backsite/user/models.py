@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
-from Compayu.settings import MEDIA_ROOT
+from backsite.settings import MEDIA_ROOT
 
 '''# 用户表，基础表
 class User(models.Model):

@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 
 # Create your views here.
-from Compayu.settings import LOGIN_TIME
-from Compayu.token import getUserByToken
+from backsite.settings import LOGIN_TIME
+from backsite.token import getUserByToken
 from user import models
 
 

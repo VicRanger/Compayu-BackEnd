@@ -7,10 +7,10 @@ from django.shortcuts import render
 from django.core.mail import send_mail, send_mass_mail
 import django.template.loader
 
-from Compayu.settings import APIKEY, APIKEYUSED
-from Compayu.token import get_token
+from backsite.settings import APIKEY, APIKEYUSED
+from backsite.token import get_token
 from . import models
-from Compayu import settings
+from backsite import settings
 from django.utils import timezone
 import random
 

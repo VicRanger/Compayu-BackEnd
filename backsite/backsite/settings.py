@@ -130,7 +130,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_backsite_default',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'pzhl990512',
         'HOST': 'localhost',
         'PORT': '3306',
     },
@@ -138,7 +138,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_backsite_compayu',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'pzhl990512',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
@@ -158,6 +158,7 @@ DATABASES = {
 DATABASE_APPS_MAPPING = {
     'compayu': 'db_compayu',
     'fei': 'db_compayu',
+    'user': 'db_compayu',
 }
 
 DATABASE_ROUTERS = ['backsite.db_router.DbRouter']
