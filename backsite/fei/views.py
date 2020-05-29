@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
-from .serializers import ThoughtSerializer
+from .serializers import ThoughtSerializer, ContentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from compayu.models import UserProfile, Thought, Media, Editor
@@ -44,6 +44,12 @@ class postImg(APIView):
 
         return JsonResponse(res)
 
+class Content(APIView):
+    def get(self, request, format=None):
+        content_id = self.request.query_params.get("id", 0)
+        contents = Editor.objects.filter(id = int(content_id))
+        contents_serializer = ContentSerializer(contents, many=True)
+        return Response(contents_serializer.data)
 
 @csrf_exempt
 def editor(request):

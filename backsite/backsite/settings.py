@@ -142,6 +142,7 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
+            "charset": "utf8mb4", #设定charset以存储富文本中的表情
         }
     },
 
