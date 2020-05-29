@@ -102,7 +102,7 @@ CORS_ALLOW_HEADERS = (
 )
 
 ROOT_URLCONF = 'backsite.urls'
-
+print("templates dir:"+os.path.join(BASE_DIR, 'templates'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -197,6 +197,9 @@ APPEND_SLASH = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
+STATICFILES_DIRS = (
+    os.path.join(os.path.join(BASE_DIR, 'static')),
+)
 print("STATIC_ROOT: "+STATIC_ROOT)
 
 
