@@ -167,7 +167,9 @@ function getCookie(name) {
 		ret = unescape(arr[2]); 
 	}else{ 
 		ret = null; 
+		return ret;
 	}
+
 	// 因为如果储存的ID是邮箱,那么会自动带有引号,需要判断后去掉
 	if (ret[0].charCodeAt() == 34){
 		ret = ret.slice(1,ret.length-1);
