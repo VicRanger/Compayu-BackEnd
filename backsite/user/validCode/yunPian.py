@@ -1,7 +1,7 @@
 import json
 import requests
 
-from Compayu.settings import APIKEY
+from backsite.settings import APIKEY
 
 
 class YunPian(object):
