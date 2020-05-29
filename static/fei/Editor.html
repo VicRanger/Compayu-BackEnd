@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<style>
+
+
+</style>
+
+
+<body>
+    <div id="app" style="margin-top: 60px;">
+        <el-row>
+            <el-col :span="16" :offset="4">
+                <div id="editor">
+
+                </div>
+            </el-col>
+            <el-col :span="4" :offset="18" style="margin-top: 20px;">
+                <el-button type="primary" @click="handleAdd" id="btn1">添加</el-button>
+            </el-col>
+        </el-row>
+    </div>
+
+
+</body>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            link: "https://cdn.wzz.ink/update-icon.png",
+        },
+        mounted() {
+            this.init() //在模板渲染成html后自动调用
+        },
+        methods: {
+            init() {
+                var E = window.wangEditor;
+                this.editor = new E('#editor');
+                // 或者 var this.editor = new E( document.getElementById('editor') );
+                this.editor.customConfig.uploadImgServer = 'http://127.0.0.1:8000/upload/' //上传图片到服务器
+                this.editor.customConfig.uploadImgMaxLength = 100 //限制上传图片数量
+                this.editor.customConfig.debug = true //debug模式
+                this.editor.customConfig.uploadFileName = 'file'
+                this.editor.create();
+            },
+
+            handleAdd() {
+                console.log(this.editor.txt.html()); //从编辑器中获得html
+                console.log(this.editor.txt.text()); //从编辑器中获得text
+                axios.post('http://127.0.0.1:8000/editor/', { "content": this.editor.txt.html() 
+                }).then(res => {
+                    if (res.data.result) {
+                        this.$message.success('添加内容成功');
+                    } else {
+                        this.$message.error('添加内容失败');
+                    }
+                }, 'json');
+            }
+
+        }
+    })
+
+
+
+</script>
+
+</html>

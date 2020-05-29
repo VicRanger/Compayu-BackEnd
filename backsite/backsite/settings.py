@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'channels',
     'fei',  # Fei-app
+    # 'qiniustorage', #七牛云存储 by fei
+    'wangeditor', # wangEditor by fei
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [

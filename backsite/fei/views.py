@@ -3,12 +3,13 @@ from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from .serializers import ThoughtSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from compayu.models import UserProfile, Thought, Media
+from compayu.models import UserProfile, Thought, Media, Editor
 from django.conf import settings
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django import forms
 import time
+import json #fei
 
 
 
@@ -26,16 +27,30 @@ class postImg(APIView):
     def post(self,request):
         res={}
         date = time.strftime("%Y%m%d",time.localtime(time.time()))
+        # print(request.FILES.keys())
         # print(request.FILES)
-        # print(request.FILES.get('file'))
+
         new_img = Media(
             picture = request.FILES.get('file'),
             link = 'https://cdn.wzz.ink/' + 'pictures/' + date + '/' + request.FILES.get('file').name
         )
         new_img.save()
 
-        res['code']=200
+
+        # 给富文本
         res['message']='上传成功'
-        res['link'] = 'https://cdn.wzz.ink/' + 'pictures/' + date + '/' + request.FILES.get('file').name
+        res['errno'] = 0
+        res['data'] = ['https://cdn.wzz.ink/' + 'pictures/' + date + '/' + request.FILES.get('file').name]
 
         return JsonResponse(res)
+
+
+@csrf_exempt
+def editor(request):
+    data = json.loads(request.body)
+    front_content = data.get("content")
+    editor_content = Editor(
+        content = front_content
+    )
+    editor_content.save()
+    return JsonResponse({"result": True})

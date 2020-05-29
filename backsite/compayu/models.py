@@ -2,11 +2,26 @@ from django.db import models
 from django.utils import timezone
 import datetime
 from django.contrib.auth.models import AbstractUser
+from wangeditor.fields import WangRichTextField
+
+
 
 '''
 Designed by Fei 
 '''
 
+class Editor(models.Model):
+    content = WangRichTextField()
+
+    class Meta:
+        db_table = 'Editor'  # 自己设计表名
+        verbose_name = '富文本编辑器'
+        verbose_name_plural = verbose_name
+
+
+'''
+Designed by Fei 
+'''
 
 class Media(models.Model):
     link = models.CharField(max_length=255, blank=True, null=True)
