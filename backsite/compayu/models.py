@@ -15,7 +15,7 @@ class Editor(models.Model):
 
     class Meta:
         db_table = 'Editor'  # 自己设计表名
-        verbose_name = '富文本编辑器'
+        verbose_name = '富文本'
         verbose_name_plural = verbose_name
 
 
@@ -95,6 +95,8 @@ class Thought(models.Model):
         'UserProfile', related_name='thought_author', blank=True, null=True, on_delete=models.CASCADE)
     picture = models.ForeignKey(
         'Media', related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
+    rich_text = models.ForeignKey(
+        'Editor', related_name='thought_content', on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         db_table = 'Thought'
