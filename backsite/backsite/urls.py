@@ -17,11 +17,13 @@ from django.contrib import admin;
 from django.urls import include,path;
 from django.conf.urls.static import static
 from . import settings
-from fei.views import postImg #fei
+from fei.views import postImg, editor, Content #fei
 
 urlpatterns = [
     path('compayu/',include('compayu.urls')),
     path('admin/', admin.site.urls),
-    path('upload/', postImg, name='imageUpload'), #七牛云图片上传-fei
+    path('upload/', postImg.as_view(), name='imageUpload'), #七牛云图片上传-fei
+    path('editor/', editor), #富文本编辑器-fei
+    path('editor/content', Content.as_view()), #富文本编辑器-fei
 ]
 urlpatterns += static('static-url/',document_root=settings.STATIC_ROOT)

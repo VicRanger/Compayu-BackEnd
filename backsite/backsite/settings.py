@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'channels',
     'fei',  # Fei-app
+    # 'qiniustorage', #七牛云存储 by fei
+    'wangeditor', # wangEditor by fei
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -140,6 +142,7 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
+            "charset": "utf8mb4", #设定charset以存储富文本中的表情
         }
     },
 
