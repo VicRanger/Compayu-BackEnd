@@ -53,25 +53,13 @@
 		</div>
 		<div id="userCenter_switchBtnContainer">
 			<div id="userCenter_buttons">
-				<div class="userCenter_switch" onclick="userCenter_changePage(1)" onmouseenter="switchBtn_hover(1)" onmouseleave="switchBtn_hover(0)" id="userCenter_myinfoBtn">
+				<div class="userCenter_switch" id="userCenter_myinfoBtn">
 					<img class="userCenter_icon" src="{% static 'img/userCenter_myinfo.png' %}" />
 					<p class="userCenter_btn_p">我的主页</p>
 				</div>
-				<div class="userCenter_switch" onclick="userCenter_changePage(2)" onmouseenter="switchBtn_hover(2)" onmouseleave="switchBtn_hover(0)" id="userCenter_mymessageBtn">
+				<div class="userCenter_switch" id="userCenter_mymessageBtn">
 					<img class="userCenter_icon" src="{% static 'img/userCenter_mymessage.png' %}" />
 					<p class="userCenter_btn_p">我的想法</p>
-				</div>
-				<div class="userCenter_switch" onclick="userCenter_changePage(3)" onmouseenter="switchBtn_hover(3)" onmouseleave="switchBtn_hover(0)" id="userCenter_mysafetyBtn">
-					<img class="userCenter_icon" src="{% static 'img/userCenter_mysafety.png' %}" />
-					<p class="userCenter_btn_p">安全中心</p>
-				</div>
-				<div class="userCenter_switch" onclick="userCenter_changePage(4)" onmouseenter="switchBtn_hover(4)" onmouseleave="switchBtn_hover(0)" id="userCenter_mynewsBtn">
-					<img class="userCenter_icon" src="{% static 'img/userCenter_mynews.png' %}" />
-					<p class="userCenter_btn_p">最新动态</p>
-				</div>
-				<div class="userCenter_switch" onclick="userCenter_changePage(5)" onmouseenter="switchBtn_hover(5)" onmouseleave="switchBtn_hover(0)" id="userCenter_mystarBtn">
-					<img class="userCenter_icon" src="{% static 'img/userCenter_mystar.png' %}" />
-					<p class="userCenter_btn_p">我的收藏</p>
 				</div>
 			</div>
 			<div id="userCenter_buttons_subline">
@@ -79,14 +67,6 @@
 			</div>
 		</div>
 	</div>
-	<!--主题切换页面-->
-	<div id="userCenter_infoContainer">
-		<!--个人主页，包括一些个人的信息等等-->
-		<div id="userCenter_myinfo" class="userCenter_infoPage">
-			
-		</div>
-	</div>
-	
 	<!-- js -->
 	<p id="script_which" style="display: none;">{{which|safe}}</p>
 	<script>

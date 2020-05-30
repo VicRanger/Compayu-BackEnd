@@ -170,7 +170,6 @@ body{
 	height: 60px;
 	width: 100%;
 	justify-content: center;
-	overflow: hidden;
 }
 #userCenter_icon{
 	margin-left: 20%;
@@ -202,12 +201,11 @@ body{
 	margin-left: 10px;
 }
 .userCenter_switch:hover{
-	background: rgba(55,55,55,0.1);
+	background: rgba(35,35,35,0.1);
 }
 .userCenter_icon{
 	height: 24px;
 	width: 24px;
-	margin-left: -5px;
 }
 .userCenter_btn_p{
 	color: black;
@@ -231,17 +229,4 @@ body{
 	width: 160px;
 	background: #4169E1;
 	transition: all 0.25s ease-in-out;
-}
-
-#userCenter_infoContainer{
-	width: 84%;
-	margin-left: 8%;
-	margin-top: 10px;
-	display: flex;
-	flex-direction: column;
-	background: whitesmoke;
-}
-#userCenter_myinfo{
-	width: 100%;
-	height: 500px;
 }

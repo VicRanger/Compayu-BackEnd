@@ -197,8 +197,7 @@ class User(models.Model):
 # 用来记录用户的登录记录
 class UserLoginLog(models.Model):
     objects = models.manager
-
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='Login_set')
+    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='Login_set')
     log = models.CharField(max_length=255)
     logTime = models.DateTimeField(auto_now=True)
 
