@@ -68,11 +68,11 @@
 		</div>
 	</div>
 	<!-- js -->
-	<script src="{% static 'js/userCenter.js' %}"></script>
-	<script src="{% static 'js/global.js' %}"></script>
-	<p id="script_which" style="display: none;">{{which}}</p>
+	<p id="script_which" style="display: none;">{{which|safe}}</p>
 	<script>
 		var which = document.getElementById("script_which").innerHTML;
 	</script>
+	<script src="{% static 'js/userCenter.js' %}"></script>
+	<script src="{% static 'js/global.js' %}"></script>
 </body>
 </html>

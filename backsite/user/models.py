@@ -44,7 +44,7 @@ class UserInfo(models.Model):
     # 性别，1-male  2-famale 0-unknown
     gender = models.IntegerField(default='0')
     # 生日
-    birthday = models.DateField(blank=True)
+    birthday = models.DateField(blank=True, auto_now_add=True)
     # 更新时间
     modified = models.DateTimeField(auto_now=True)
     # 信息完整度 “10“-email "11:-email and phone之类的

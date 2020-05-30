@@ -210,18 +210,23 @@ body{
 .userCenter_btn_p{
 	color: black;
 	margin-left: 14px;
+	margin-right: 10px;
 	line-height: 60px;
 	font-family: welcome2;
 	font-size: large;
+	transition: all 0.25s ease-in-out;
 }
 #userCenter_buttons_subline{
 	height: 6px;
 	position: relative;
 	width: 100%;
+	display: flex;
+	align-items: center;
 }
 #userCenter_subline{
-	position: relative;
-	height: 100%;
+	position: absolute;
+	height: 70%;
 	width: 160px;
 	background: #4169E1;
+	transition: all 0.25s ease-in-out;
 }

@@ -158,7 +158,7 @@ function uploadAvatar(){
 				jumpToLogin();
 			}
 		},error: function () {
-			alert("访问繁忙，请重试")
+			//alert("访问繁忙，请重试")
 		}
 
 	})
@@ -222,5 +222,16 @@ function logout(){
 }
 
 function initSwitchBtn(){
-	console.log(which);
+	var btns_p = document.getElementsByClassName("userCenter_btn_p");
+	var btns = document.getElementsByClassName("userCenter_switch");
+	var page = 0;
+	if (which=='myinfo'){
+		// 第一页
+		page = 0;
+	}
+	btns_p[page].style.color = '#4169E1';
+	// 滑块
+	var subline = document.getElementById("userCenter_subline");
+	var left = 10 + btns[page].style.width * page;
+	subline.style.marginLeft = left+'px';
 }
