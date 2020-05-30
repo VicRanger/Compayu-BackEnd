@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from .serializers import ThoughtSerializer, ContentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from compayu.models import UserProfile, Thought, Media, Editor
+from compayu.models import  Thought, Media, Editor
 from django.conf import settings
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt

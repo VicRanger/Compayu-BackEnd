@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from compayu.models import UserProfile, Thought, Media, Editor
+from compayu.models import Thought, Media, Editor
 
 class ThoughtSerializer(serializers.ModelSerializer):
     class Meta:
