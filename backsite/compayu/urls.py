@@ -1,9 +1,10 @@
 from django.urls import path
 
-from . import views
+from .views import thought, classifyText
 
 app_name = 'compayu'
 
 urlpatterns = [
-    path('thought/', views.thought, name="thought"),
+    path('thought/', thought, name="thought"),
+    path('classify-text/', classifyText.as_view(), name='classify-text')
 ]

@@ -25,6 +25,15 @@ SECRET_KEY = '3tyt)@rb#39wsp_png8z0^1eh+b+v&p(dsvj*@z@1$)uaub-c*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 预测服务是否开启
+USE_PREDICTION = True
+# 预测服务守护进程心跳
+PREDICTION_CHECK_TIME = 10
+# 预测服务守护进程关闭超时时间
+PREDICTION_CLOSE_TIME = 60
+
+
+
 ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink", "cdn.wzz.ink"]
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
@@ -43,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'werkzeug_debugger_runserver',
     'django_extensions',
+    'rest_framework',
     'channels',
     'fei',  # Fei-app
 ]

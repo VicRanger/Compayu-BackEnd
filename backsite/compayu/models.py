@@ -77,9 +77,9 @@ class Thought(models.Model):
     modified_time = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
     author = models.ForeignKey(
-        'UserProfile', related_name='thought_author', blank=True, null=True, on_delete=models.CASCADE)
+        'UserProfile', related_name='thoughts', blank=True, null=True, on_delete=models.SET_NULL)
     picture = models.ForeignKey(
-        'Media', related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
+        'Media', related_name='thoughts', on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         db_table = 'Thought'
@@ -95,3 +95,4 @@ class Thought(models.Model):
         for f in fields:
             ret[f] = str(getattr(self, f))
         return ret
+

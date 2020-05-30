@@ -1,18 +1,18 @@
-from django.shortcuts import render
 from compayu.models import Thought
-# Create your views here.
 from django.http import JsonResponse, HttpResponse, FileResponse, StreamingHttpResponse
-from django.core import serializers
 import json
 import random
 from django.views.decorators.csrf import csrf_exempt
-from django.template import Template, Context
 import time
 import os
 from compayu.util import writeThought
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .module import Module,check_active_worker
+import time
+from backsite.settings import USE_PREDICTION
+import queue 
 
-
-@csrf_exempt
 def thought(req):
     ret = {}
     if req.method == 'GET':
@@ -45,3 +45,29 @@ def thought(req):
         return HttpResponse(json.dumps(ret, ensure_ascii=False))
     ret['data'] = 'NONE'
     return HttpResponse(json.dumps(ret, ensure_ascii=False))
+
+module = None
+q = None
+worker = None
+if USE_PREDICTION:
+    module = Module("ernie_weibo4moods_finetuned",8866)
+    q = queue.Queue(1)
+    q.put(module,block=True)
+    worker = check_active_worker(q)
+    worker.start()
+class classifyText(APIView):
+    def get(self, request, format=None):
+        global i,q
+        if USE_PREDICTION:
+            module = q.get(True)
+            ret = {}
+            text = self.request.query_params.get("text", "")
+            if len(text)>0:
+                ret['data'] = module.predict([text])
+            else:
+                ret['data'] = ""
+            ret['active'] = module.active
+            q.put(module)
+            return Response(ret)
+        else:
+            return Response('未启用文本分类服务')
