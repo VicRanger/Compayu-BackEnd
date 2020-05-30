@@ -10,7 +10,7 @@ function jumpToAboutUs(){
 }
 //用户中心
 function jumpToUsercenter(){
-	window.location.href = '/user/usercenter/?which=index';
+	window.location.href = '/user/usercenter/?which=myinfo';
 }
 
 //跳转到登录界面
@@ -127,6 +127,7 @@ function checkLogin(){
 		p1.style.display = "flex";
 		p2.style.display = "none";
 	}
+	return isLogin;
 }
 
 function saveToken(token){

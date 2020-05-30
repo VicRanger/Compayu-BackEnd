@@ -1,7 +1,7 @@
 function pageInit(){
 	document.body.style.backgroundImage = "url(/static/img/BG.png)";
 	
-	checkLogin();
+	userCenter_checkLogin();
 	
 	topNavInit();
 	
@@ -223,15 +223,65 @@ function logout(){
 
 function initSwitchBtn(){
 	var btns_p = document.getElementsByClassName("userCenter_btn_p");
-	var btns = document.getElementsByClassName("userCenter_switch");
 	var page = 0;
 	if (which=='myinfo'){
 		// 第一页
 		page = 0;
+	}else if(which=='mymessage'){
+		page = 1;
+	}else if(which=='mysafety'){
+		page = 2;
+	}else if(which=='mynews'){
+		page = 3;
+	}else if(which=='mystar'){
+		page = 4;
 	}
-	btns_p[page].style.color = '#4169E1';
+	
+	for (var i=0;i<btns_p.length;i++){
+		if (i==page){
+			btns_p[i].style.color = '#4169E1';
+		}else{
+			btns_p[i].style.color = "black";
+		}
+	}
 	// 滑块
 	var subline = document.getElementById("userCenter_subline");
-	var left = 10 + btns[page].style.width * page;
+	var left = 10 + (10 + 160) * page;
 	subline.style.marginLeft = left+'px';
+}
+
+function userCenter_checkLogin(){
+	var isLogin = checkLogin();
+	if (isLogin == "False"){
+		alert("您的账号状态异常,请重新登录");
+		jumpToLogin();
+	}
+}
+
+function switchBtn_hover(w){
+	if (w==0){
+		//归位
+		initSwitchBtn();
+	}else{
+		var btns_p = document.getElementsByClassName("userCenter_btn_p");
+		btns_p[w-1].style.color = '#4169E1';
+		// 滑块
+		var subline = document.getElementById("userCenter_subline");
+		var left = 10 + (10 + 160) * (w-1);
+		subline.style.marginLeft = left+'px';
+	}
+}
+
+function userCenter_changePage(p){
+	if (p==1){
+		window.location.href = '/user/usercenter/?which=myinfo';
+	}else if(p==2){
+		window.location.href = '/user/usercenter/?which=mymessage';
+	}else if(p==3){
+		window.location.href = '/user/usercenter/?which=mysafety';
+	}else if(p==4){
+		window.location.href = '/user/usercenter/?which=mynews';
+	}else if(p==5){
+		window.location.href = '/user/usercenter/?which=mystar';
+	}
 }
