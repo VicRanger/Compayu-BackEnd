@@ -16,7 +16,7 @@
 <style>
 
     .rich img{
-        width: 50%
+        width: 30%
     }
     /* table 样式 */
     table {
@@ -84,6 +84,9 @@
 
         <div style="margin-top: 60px;"></div>
             <div v-html = "htmlContent" class="rich"></div>
+            <br>
+            <p>这里是获得的文本：</p>
+            <div v-text="textContent"></div>
         </div>
 
     </div>
@@ -97,7 +100,8 @@
         data: {
             link: "https://cdn.wzz.ink/update-icon.png",
             htmlContent: "",
-            contentID: ""
+            textContent:"",
+            contentID: "",
         },
         mounted() {
             this.init() //在模板渲染成html后自动调用
@@ -108,7 +112,7 @@
                 this.editor = new E('#editor');
                 // 或者 var this.editor = new E( document.getElementById('editor') );
                 this.editor.customConfig.uploadImgServer = 'http://127.0.0.1:8000/upload/' //上传图片到服务器
-                this.editor.customConfig.uploadImgMaxLength = 100 //限制上传图片数量
+                this.editor.customConfig.uploadImgMaxLength = 1 //限制上传图片数量
                 this.editor.customConfig.debug = true //debug模式
                 this.editor.customConfig.uploadFileName = 'file'
                 this.editor.create();
@@ -117,7 +121,9 @@
             handleAdd() {
                 console.log(this.editor.txt.html()); //从编辑器中获得html
                 console.log(this.editor.txt.text()); //从编辑器中获得text
-                axios.post('http://127.0.0.1:8000/editor/', { "content": this.editor.txt.html() 
+                axios.post('http://127.0.0.1:8000/editor/', { 
+                "content": this.editor.txt.html(),
+                "text": this.editor.txt.text() 
                 }).then(res => {
                     if (res.data.result) {
                         this.$message.success('添加内容成功');
@@ -133,7 +139,9 @@
                     .then(function (response) {
                         // console.log(response);
                         console.log(response.data[0].content);
+                        console.log(response.data[0].text);
                         that.htmlContent = response.data[0].content;
+                        that.textContent = response.data[0].text;
                     }).catch(function (error) {
                         console.log(error);
                     });
