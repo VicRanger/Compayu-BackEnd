@@ -28,7 +28,7 @@ DEBUG = True
 # 预测服务是否开启
 USE_PREDICTION = True
 # 预测服务守护进程心跳
-PREDICTION_CHECK_TIME = 10
+PREDICTION_CHECK_TIME = 31
 # 预测服务守护进程关闭超时时间
 PREDICTION_CLOSE_TIME = 60
 
