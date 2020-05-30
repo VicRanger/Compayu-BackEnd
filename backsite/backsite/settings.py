@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'user',  # 用户管理
     'website',  # 网站相关信息
     'api',  # 接口，获取各种数据信息
-    'qiniustorage',  # 七牛云
+    # 'qiniustorage',  # 七牛云
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
