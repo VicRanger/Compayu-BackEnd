@@ -56,8 +56,10 @@ class LoginView(APIView):
                 break
         if isEmail:
             user = models.User.objects.filter(email=name).first()
+            logtype = "邮箱"
         else:
             user = models.User.objects.filter(phonenum=name).first()
+            logtype = "电话"
         if user:
             # md5对照密码
             md5pwd = md5.md5(user.password)
@@ -99,6 +101,9 @@ class LoginView(APIView):
                 ret.set_cookie('uac', 'null', max_age=60 * 60 * 24 * 7)
                 ret.set_cookie('upw_length', 0, max_age=60 * 60 * 24 * 7)
                 ret.set_cookie('upw', 'null', max_age=60 * 60 * 24 * 7)
+            # 记录登录日志
+            log = models.UserLoginLog(user=user, log="用户登录：登录方式 : " + logtype)
+            log.save()
             return ret
         else:
             response["msg"] = "用户名或密码错误"

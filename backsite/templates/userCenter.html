@@ -55,13 +55,24 @@
 			<div id="userCenter_buttons">
 				<div class="userCenter_switch" id="userCenter_myinfoBtn">
 					<img class="userCenter_icon" src="{% static 'img/userCenter_myinfo.png' %}" />
-					<p class="userCenter_btn_p">主页</p>
+					<p class="userCenter_btn_p">我的主页</p>
 				</div>
+				<div class="userCenter_switch" id="userCenter_mymessageBtn">
+					<img class="userCenter_icon" src="{% static 'img/userCenter_mymessage.png' %}" />
+					<p class="userCenter_btn_p">我的想法</p>
+				</div>
+			</div>
+			<div id="userCenter_buttons_subline">
+				<div id="userCenter_subline"></div>
 			</div>
 		</div>
 	</div>
 	<!-- js -->
 	<script src="{% static 'js/userCenter.js' %}"></script>
 	<script src="{% static 'js/global.js' %}"></script>
+	<p id="script_which" style="display: none;">{{which}}</p>
+	<script>
+		var which = document.getElementById("script_which").innerHTML;
+	</script>
 </body>
 </html>
