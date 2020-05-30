@@ -2,9 +2,6 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 from django.contrib.auth.admin import UserAdmin
-
-from .models import User, Thought, Media
-
 '''
 # Register your models here.
 

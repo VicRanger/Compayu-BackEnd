@@ -107,26 +107,6 @@ class UserToken(models.Model):
         return self.token
 
 
-# 媒体储存库
-class Media(models.Model):
-    objects = models.manager
-    media_id = models.AutoField(primary_key=True)
-    link = models.CharField(max_length=255, blank=True, null=True)
-    media_type = models.CharField(max_length=20, blank=True, null=True)
-    picture = models.ImageField(blank=True,
-                                        null=True,
-                                        upload_to="pictures/%Y%m%d",
-                                        max_length=255,
-                                        verbose_name="图片")
-
-    class Meta:
-        verbose_name='媒体存储'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return '%s %s' % (self.link, self.media_type)
-
-
 # 头像
 class Avatar(models.Model):
     objects = models.manager
@@ -146,29 +126,6 @@ class Avatar(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.link, self.media_type)
-
-
-# 想法表
-class Thought(models.Model):
-    objects = models.manager
-    thought_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=40)
-    text = models.TextField()
-    type_raw = models.CharField(max_length=20)
-    type_ai = models.CharField(max_length=20, blank=True, null=True)
-    type_human = models.CharField(max_length=20, blank=True, null=True)
-    create_time = models.DateTimeField()
-    modified_time = models.DateTimeField(blank=True, null=True)
-    views = models.IntegerField(default= 0)
-    author = models.ForeignKey('User', related_name='thought_author', on_delete=models.CASCADE)
-    picture = models.ForeignKey('Media', related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
-
-    class Meta:
-        verbose_name='想法'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.title
 
 
 class User(models.Model):
