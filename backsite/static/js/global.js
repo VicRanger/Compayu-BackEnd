@@ -10,7 +10,7 @@ function jumpToAboutUs(){
 }
 //用户中心
 function jumpToUsercenter(){
-	window.location.href = '/user/usercenter';
+	window.location.href = '/user/usercenter/?which=index';
 }
 
 //跳转到登录界面

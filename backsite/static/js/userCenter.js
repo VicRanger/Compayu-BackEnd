@@ -10,6 +10,8 @@ function pageInit(){
 	setUserData(1);
 	
 	bindKeyPress();
+	
+	initSwitchBtn();
 }
 
 // 更改网页title
@@ -147,9 +149,16 @@ function uploadAvatar(){
 		data:formdata,
 		dataType:"json",
 		success:function (arg) {
-
+			if (ret.code == '200'){
+				userinfo = ret;
+			}
+			else if(ret.code=='403'){
+				isLogin = 'False';
+				alert("你的登录已过期,请重新登录");
+				jumpToLogin();
+			}
 		},error: function () {
-			alert("访问繁忙，请重试")
+			//alert("访问繁忙，请重试")
 		}
 
 	})
@@ -210,4 +219,19 @@ function logout(){
 			console.log(errorThrown);
 		}
 	});
+}
+
+function initSwitchBtn(){
+	var btns_p = document.getElementsByClassName("userCenter_btn_p");
+	var btns = document.getElementsByClassName("userCenter_switch");
+	var page = 0;
+	if (which=='myinfo'){
+		// 第一页
+		page = 0;
+	}
+	btns_p[page].style.color = '#4169E1';
+	// 滑块
+	var subline = document.getElementById("userCenter_subline");
+	var left = 10 + btns[page].style.width * page;
+	subline.style.marginLeft = left+'px';
 }

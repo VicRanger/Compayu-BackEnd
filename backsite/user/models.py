@@ -44,7 +44,7 @@ class UserInfo(models.Model):
     # 性别，1-male  2-famale 0-unknown
     gender = models.IntegerField(default='0')
     # 生日
-    birthday = models.DateField(blank=True, default=timezone.now())
+    birthday = models.DateField(blank=True, auto_now_add=True)
     # 更新时间
     modified = models.DateTimeField(auto_now=True)
     # 信息完整度 “10“-email "11:-email and phone之类的
@@ -193,3 +193,14 @@ class User(models.Model):
     def __str__(self):
         return self.nickname
 
+
+# 用来记录用户的登录记录
+class UserLoginLog(models.Model):
+    objects = models.manager
+    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='Login_set')
+    log = models.CharField(max_length=255)
+    logTime = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name='登录日志'
+        verbose_name_plural = verbose_name

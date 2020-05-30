@@ -88,10 +88,10 @@ def getuserinfo(request):
             else:
                 where = request.POST.get('where', '')
                 if where != '':
-                    data = request.FILES.get('avatar', '')
                     user = models.User.objects.filter(id=uid)[0]
                     userinfo = models.UserInfo.objects.filter(user=user)[0]
                     if where == 'signature':
+                        data = request.POST.get('data', '')
                         userinfo.signature = data
 
                     userinfo.save()
