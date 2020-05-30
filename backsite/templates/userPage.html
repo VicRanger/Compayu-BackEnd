@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<meta charset="UTF-8">
+	<title>-Compayu- | 情绪分享类网站</title>
+</head>
+<body onload="pageInit()">
+	<!--设置FAVICON-->
+	<link rel="icon" href="{% static 'img/favicon.ico'%}">
+	<!--样式表-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/userPage.css' %}"/>
+	
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+	<!--MD5加密-->
+	<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+	<script src="{% static 'js/vue.js' %}"></script>
+	{% include 'part_topNav.html' %}
+	
+	<div id="mainContainer">
+		<div id="user_welcome" onclick="closeImediatly()">
+			<div id="user_welcome_p1">
+				<p id="user_welcome_p1_p1">Welcome to</p>
+				<p id="user_welcome_p1_p2">Compayu</p>
+			</div>
+			<div id="user_welcome_p2">
+				<p id="user_welcome_p2_p">生活里不能说的秘密，把它留在这里</p>
+			</div>
+		</div>
+		<div id="user_bigIcon">
+			<img id="user_bigIcon_img" src="{% static 'img/Icon.png' %}"/>
+			<p id="user_bigIcon_p">- 空游 -</p>
+		</div>
+		<div id="functionContainer">
+			<div id="switchBtnContainer">
+				<button class="switchBtn" onclick="switchPage(1)" title="登录您的账号" id="user_loginBtn">登&emsp;&emsp;录</button>
+				<button class="switchBtn" onclick="switchPage(2)" title="注册新的账号" id="user_registerBtn">注&emsp;&emsp;册</button>
+			</div>
+			<div style="width: 94%;margin-left: 3%;margin-top: 6px;height: 3px;border-radius: 5%;background-color: #AAAAFF;"></div>
+			<div id="userSliderContainer">
+				<div id="user_subPageSlider">
+					<!--登录页-->
+					<div id="user_subPage1">
+						<div id="user_subPage1_title">
+							<img id="user_subPage1_title_img" src="{% static 'img/Icon.png' %}" />
+							<p id="user_subPage1_title_p1">空游 Compayu</p>
+							<p>账号密码登录</p>
+						</div>
+						<div style="width: 94%;margin-left: 3%;margin-top: 6px;height: 3px;border-radius: 5%;background-color: #AAAAFF;"></div>
+						
+						<!--账号登录-->
+						<div id="user_subPage1_ac">
+							<form action="/user/login/" method="post" id="UserLogin_form">
+								<p>
+									<label class="formLabel" for="UserLogin_form_ac">&emsp;账号&emsp;：</label>
+									<input class="formInput" id="UserLogin_form_ac" AUTOCOMPLETE="off" name="uac" type="text" placeholder="输入您的手机号或注册邮箱"/>
+								</p>
+								<p>
+									<label class="formLabel" for="UserLogin_form_pw">账户密码：</label>
+									<input class="formInput" id="UserLogin_form_pw" AUTOCOMPLETE="off" name="upw" type="password" placeholder="输入您的密码"/>
+								</p>
+								<p>
+									<input type="checkbox" id="rememAC" name="rememAC"/>
+									<label for="rememAC" style="margin-right: 12rem;color: blue;font-size: small;line-height: 24px;">记住我</label>
+									<a class="fontLink" onclick="jumpToForgetPassword()">忘记密码？</a>
+								</p>
+								<div id="submitBtnContainer">
+									<div id="loginBtn_hover"><p style="display: none;">a</p></div>
+									<input type="button" id="loginBtn" onclick="loginCheck()" value="登&emsp;&emsp;录"/>
+								</div>
+							</form>
+						</div>
+						<div style="width: 94%;margin-left: 3%;margin-top: 24px;height: 3px;border-radius: 5%;background-color: #AAAAFF;"></div>
+						<!--其他的登录方式-->
+						<div id="user_subPage1_other">
+							<div id="user_subPage1_otherchannel">
+								<p>其他方式登录</p>
+							</div>
+							<div id="user_subPage1_other_open">
+								<p id="user_subPage1_other_open_p" onclick="openOtherChannel()">其他登录方式 > </p>
+							</div>
+						</div>
+						
+					</div>
+					<!--注册页-->
+					<div id="user_subPage2">
+						<div id="user_subPage2_switchBtn">
+							<button class="subPage2SwitchBtn" onclick="switchRegister(1)" id="subPage2_phoneBtn">
+								电话注册
+							</button>
+							<button class="subPage2SwitchBtn" onclick="switchRegister(2)" id="subPage2_emailBtn">
+								邮箱注册
+							</button>
+							<button class="subPage2SwitchBtn" onclick="switchRegister(3)" id="subPage2_other">
+								其他方式注册
+							</button>
+						</div>
+						<div id="subPage2_switchBtn_subline">
+							<div id="user_subline"></div>
+						</div>
+						<div style="width: 94%;margin-left: 0;margin-top: 6px;height:2px;border-radius: 5%;background-color: #AAAAFF;"></div>
+						<div id="subPage2SliderContainer">
+							<div id="user_subPage2_slider">
+								<div id="subPage2_phone">
+									<form action="/user/register/?with=phone" method="post" id="registerForm1">
+										<p style="margin-top: 20px;">
+											<label class="formLabel" for="phonenum">&emsp;电话：&emsp;</label>
+											<input class="formInput" id="phonenum" AUTOCOMPLETE="off" name="phonenum" type="text" placeholder="输入您的手机号"/>
+										</p>
+										<p>
+											<label class="formLabel" for="validcode">验证码：&emsp;</label>
+											<input id="validcode" name="validcode" type="text" placeholder="输入验证码"/>
+											<input id="getValidcodeBtn" v-bind:value="userBtn1" type="button" onclick="sendValidCode()"/>
+										</p>
+										<p style="margin-top: 25px;">
+											<label class="formLabel" for="nickname1">&emsp;昵称：&emsp;</label>
+											<input class="formInput" id="nickname1" name="nickname" type="text" placeholder="输入您的昵称"/>
+										</p>
+										<p>
+											<label class="formLabel" for="pw1">&emsp;密码：&emsp;</label>
+											<input class="formInput" oninput="showReliable(1)" id="pw1" name="pw" type="password" placeholder="设置初始密码"/>
+										</p>
+										<div id="showLs1">
+											<div id="showLs1_block1"></div>
+											<div id="showLs1_block2"></div>
+											<div id="showLs1_block3"></div>
+										</div>
+										<div style="margin-top: 10px;display: flex;flex-direction: row;width: 100%;justify-content: center;">
+											<p style="font-size: small;color: dimgray;margin-right: 20px;">注册即代表同意</p>
+											<p class="fontLink">空游用户协议</p>
+										</div>
+										<div id="submitBtnContainer2">
+											<div id="registerBtn_hover"><p style="display: none;">a</p></div>
+											<input type="button" id="phoneRegisterBtn" onclick="registerCheck(1)" value="注&emsp;&emsp;册"/>
+										</div>
+									</form>
+								</div>
+								<div id="subPage2_email">
+									<form action="/user/register/?with=email" method="post" id="registerForm2">
+										<p>
+											<label class="formLabel" AUTOCOMPLETE='off' for="email">&emsp;邮箱：&emsp;</label>
+											<input class="formInput" id="email" name="email" type="text" placeholder="输入您的电子邮箱"/>
+										</p>
+										<p>
+											<label class="formLabel" for="validcode">验证码：&emsp;</label>
+											<input id="validcode2" name="validcode" type="text" placeholder="输入验证码"/>
+											<input id="getValidcodeBtn2" type="button" onclick="sendEmailCode()" v-bind:value="userBtn2" />
+										</p>
+										<p style="margin-top: 15px;">
+											<label class="formLabel" for="nickname2">&emsp;昵称：&emsp;</label>
+											<input class="formInput" id="nickname2" name="nickname" type="text" placeholder="输入您的昵称"/>
+										</p>
+										<p>
+											<label class="formLabel" for="pw2">&emsp;密码：&emsp;</label>
+											<input class="formInput" oninput="showReliable(2)" id="pw2" name="pw" type="password" placeholder="设置初始密码"/>
+										</p>
+										<div id="showLs2">
+											<div id="showLs2_block1"></div>
+											<div id="showLs2_block2"></div>
+											<div id="showLs2_block3"></div>
+										</div>
+										<div style="margin-top: 10px;display: flex;flex-direction: row;width: 100%;justify-content: center;">
+											<p style="font-size: small;color: dimgray;margin-right: 20px;">注册即代表同意</p>
+											<p class="fontLink">空游用户协议</p>
+										</div>
+										<div id="submitBtnContainer3">
+											<div id="registerBtn_hover2"><p style="display: none;">a</p></div>
+											<input type="button" id="emailRegisterBtn" onclick="registerCheck(2)" value="注&emsp;&emsp;册"/>
+										</div>
+									</form>
+								</div>
+								<div id="subPage2_otherRegister">
+									<p>别的登录方式，微信啊，QQ啊之类的</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	<script src="{% static 'js/userPage.js' %}"></script>
+	<script src="{% static 'js/global.js' %}"></script>
+	<p id="js_type" style="display: none;">{{type|safe}}</p>
+	<script>
+		var type = document.getElementById("js_type").innerHTML;
+	</script>
+</body>
+</html>

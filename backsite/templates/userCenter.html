@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <title>-Compayu- | 我的个人空间</title>
+</head>
+<body onload="pageInit()">
+	<!--设置FAVICON-->
+	<link rel="icon" href="{% static 'img/favicon.ico'%}">
+	<!--样式表-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/userCenter.css' %}"/>
+	
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'js/vue.js' %}"></script>
+	
+	{% include 'part_topNav.html' %}
+	
+	<div id="userCenter_main">
+		<div id="userCenter_top">
+			<div id="userCenter_top_info">
+				<div id="userCenter_avatarContainer"  onclick="changeAvatar()">
+					<img id="userCenter_avatar" src="{% static '/img/defaultAvatar.png' %}"/>
+					<img id="userCenter_avatarHover" src="{% static '/img/avatarhover.png' %}"/>
+					<input style="display: none;" type="file" file-mode='image' id="avatar_input" name="avatar">
+				</div>
+				<div id="userCenter_baseInfo">
+					<div id="userCenter_baseInfo_usertype">
+						<p id="userType">用户类别</p>
+						<p id="userLevel">LV1</p>
+					</div>
+					<div id="userCenter_baseInfo_up">
+						<p id="userCenter_nickname">我的昵称</p>
+						<!--性别，手机注册还是邮箱注册等等-->
+						<div id="otherInfo">
+							<img title="电话信息" id="userCenter_up_phone" src="{% static 'img/phone_close.png' %}" />
+							<img title="邮箱信息" id="userCenter_up_email" src="{% static 'img/email_close.png' %}" />
+						</div>
+					</div>
+					<div id="userCenter_baseInfo_signature">
+						<input type="text" id="userCenter_signature" value="我的签名"/>
+					</div>
+				</div>
+				<div id="userCenter_top_control">
+					<div id="userCenter_iconContainer">
+						<img id="userCenter_icon" src="{% static 'img/Icon.png' %}" />
+						<p style="color: white;margin-left: 10px;line-height: 60px;font-size: x-large;">『空游』</p>
+					</div>
+					
+					<input id="logout" type="button" value="登出当前账号" onclick="logout()"/>
+				</div>
+			</div>
+		</div>
+		<div id="userCenter_switchBtnContainer">
+			<div id="userCenter_buttons">
+				<div class="userCenter_switch" id="userCenter_myinfoBtn">
+					<img class="userCenter_icon" src="{% static 'img/userCenter_myinfo.png' %}" />
+					<p class="userCenter_btn_p">主页</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js -->
+	<script src="{% static 'js/userCenter.js' %}"></script>
+	<script src="{% static 'js/global.js' %}"></script>
+</body>
+</html>
