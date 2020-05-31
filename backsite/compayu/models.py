@@ -6,10 +6,10 @@ from wangeditor.fields import WangRichTextField
 from user.models import User
 
 
-
 '''
 Designed by Fei 
 '''
+
 
 class Editor(models.Model):
     content = WangRichTextField()
@@ -24,6 +24,7 @@ class Editor(models.Model):
 '''
 Designed by Fei 
 '''
+
 
 class Media(models.Model):
     link = models.CharField(max_length=255, blank=True, null=True)
@@ -94,11 +95,9 @@ class Thought(models.Model):
     modified_time = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
     author = models.ForeignKey(
-        User, related_name='thought_author', blank=True, null=True, on_delete=models.CASCADE)
-    picture = models.ForeignKey(
-        Media, related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
-    rich_text = models.ForeignKey(
-        Editor, related_name='thought_content', on_delete=models.SET_NULL, blank=True, null=True)
+        User, related_name='thought_set', blank=True, null=True, on_delete=models.SET_NULL)
+    rich_text = models.OneToOneField(
+        Editor, related_name='thought', on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         db_table = 'Thought'
@@ -110,8 +109,7 @@ class Thought(models.Model):
 
     def json(self):
         ret = {}
-        fields = ['id','title','text','type_raw','create_time','views']
+        fields = ['id', 'title', 'text', 'type_raw', 'create_time', 'views']
         for f in fields:
             ret[f] = str(getattr(self, f))
         return ret
-

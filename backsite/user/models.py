@@ -35,13 +35,14 @@ class User(models.Model):
     objects = models.manager
 
     nickname = models.CharField(max_length=255, blank=True, null=True)
-    phonenum = models.CharField(max_length=11)
-    email = models.EmailField(max_length=255)
+    phonenum = models.CharField(max_length=11, blank=True, null=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
     wxopenid = models.CharField(max_length=255, blank=True, null=True)
     signup_type = models.CharField(max_length=255, blank=True, null=True)
     signup_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     password = models.CharField(max_length=255)
     lastlogin = models.DateTimeField(auto_now=True)
+    #默认头像 'https://cdn.wzz.ink/avatar/defaultAvatar.png'
     avatar = models.ImageField(max_length=512, default=os.path.join(MEDIA_ROOT, 'avatar/defaultAvatar.png'))
     userType = models.CharField(max_length=25, default="普通用户")
     level = models.IntegerField(default=1)
