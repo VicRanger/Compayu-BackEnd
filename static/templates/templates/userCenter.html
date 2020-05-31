@@ -82,8 +82,44 @@
 	<!--主题切换页面-->
 	<div id="userCenter_infoContainer">
 		<!--个人主页，包括一些个人的信息等等-->
-		<div id="userCenter_myinfo" class="userCenter_infoPage">
-			
+		<div id="userCenter_myinfo">
+			<div id="userCenter_myinfo_level">
+				<p class="userCenter_title"> 个人经验 </p>
+				<div id="userCenter_level">
+					<p class="userCenter_subtitle" style="color: #2244CC;">我的经验：</p>
+					<p id="userCenter_level_p">LV0</p>
+					<div id="userCenter_level_lineContainer">
+						<div id="userCenter_level_line"></div>
+					</div>
+					<p style="color: #2244CC; margin-left: 10px;">0/100</p>
+					<p title="多多发送自己的想法吧" style="margin-left: 20px;color: #2244CC;cursor: pointer;">怎么获取经验？</p>
+				</div>
+			</div>
+			<div id="userCenter_myinfo_userinfo">
+				<p class="userCenter_title"> 我的信息 </p>
+				<div class="userCenter_row">
+					<p class="userCenter_subtitle">&emsp;&emsp;性别：</p>
+					<div id="genderSwitch">
+						<input onchange="showSubmitBtn()" type="radio" name="gender" id="userCenter_boy"/>
+						<img src="{% static 'img/gender.png' %}" id="userCenter_genderImg"/>
+						<input onchange="showSubmitBtn()" type="radio" name="gender" id="userCenter_girl"/>
+					</div>
+				</div>
+				<div class="userCenter_row">
+					<p class="userCenter_subtitle" style="margin-right: 125px;">&emsp;&emsp;生日：</p>
+					<input onchange="showSubmitBtn()" type="date" id="userCenter_birthday" class="birthdayInput"/>
+				</div>
+				<div id="submitBtn_myinfo">
+					<p style="font-size: small;color: darkslateblue;margin-top: 7px;margin-bottom: 3px;">谢谢你告诉我你的秘密，别忘了提交哦</p>
+					<input onclick="myinfoSubmit()" type="button" id="myinfoSubmitBtn" value="提&emsp;交"/>
+				</div>
+			</div>
+			<div id="userCenter_myinfo_thought">
+				<p class="userCenter_title"> 我的想法 </p>
+				<div class="userCenter_row">
+					
+				</div>
+			</div>
 		</div>
 	</div>
 	

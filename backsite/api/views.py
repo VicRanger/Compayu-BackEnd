@@ -26,6 +26,7 @@ def setting(request):
 def getuserinfo(request):
     response = {'msg': '用户数据API', 'code': '200'}
     what = request.POST.get("what", '')
+    # print(what)
     if what == '':
         response['msg'] = '未获取参数'
         return JsonResponse(response)
@@ -77,6 +78,8 @@ def getuserinfo(request):
                 response["level"] = user.level
                 # userinfo
                 response["signature"] = userinfo.signature
+                response["gender"] = userinfo.gender
+                response["birthday"] = userinfo.birthday
             return JsonResponse(response)
         elif what == 'setuser':
             if uid == 0:
@@ -88,12 +91,17 @@ def getuserinfo(request):
             else:
                 where = request.POST.get('where', '')
                 if where != '':
+                    # print(where)
                     user = models.User.objects.filter(id=uid)[0]
                     userinfo = models.UserInfo.objects.filter(user=user)[0]
                     if where == 'signature':
                         data = request.POST.get('data', '')
                         userinfo.signature = data
-
+                    if where == 'genderAndBirthday':
+                        gender = request.POST.get('gender')
+                        birth = request.POST.get('birth')
+                        userinfo.gender = gender
+                        userinfo.birthday = birth
                     userinfo.save()
                     user.save()
                     response['msg'] = '用户数据更新: '+where
