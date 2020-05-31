@@ -13,6 +13,7 @@ Designed by Fei
 
 class Editor(models.Model):
     content = WangRichTextField()
+    text = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'Editor'  # 自己设计表名

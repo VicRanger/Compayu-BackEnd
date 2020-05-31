@@ -9,7 +9,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django import forms
 import time
-import json #fei
+import json, re #fei
 
 
 
@@ -55,8 +55,20 @@ class Content(APIView):
 def editor(request):
     data = json.loads(request.body)
     front_content = data.get("content")
+    front_text = data.get("text")
+    front_text = front_text.replace(r"&nbsp;", "")
+    front_text = filter_emoji(front_text)
     editor_content = Editor(
-        content = front_content
+        content = front_content,
+        text = front_text
     )
     editor_content.save()
     return JsonResponse({"result": True})
+
+def filter_emoji(desstr,restr=''):  
+    #过滤 emoji，本质是去掉所有四字节 utf8   
+    try:  
+        co = re.compile(u'[\U00010000-\U0010ffff]')  
+    except re.error:  
+        co = re.compile(u'[\uD800-\uDBFF][\uDC00-\uDFFF]')  
+    return co.sub(restr, desstr)  
