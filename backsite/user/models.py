@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
@@ -31,6 +31,28 @@ class User(models.Model):
     # 注册时间
     registerdate = models.DateTimeField(auto_now=True)'''
 
+class User(models.Model):
+    objects = models.manager
+
+    nickname = models.CharField(max_length=255, blank=True, null=True)
+    phonenum = models.CharField(max_length=11)
+    email = models.EmailField(max_length=255)
+    wxopenid = models.CharField(max_length=255, blank=True, null=True)
+    signup_type = models.CharField(max_length=255, blank=True, null=True)
+    signup_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    password = models.CharField(max_length=255)
+    lastlogin = models.DateTimeField(auto_now=True)
+    avatar = models.ImageField(max_length=512, default=os.path.join(MEDIA_ROOT, 'avatar/defaultAvatar.png'))
+    userType = models.CharField(max_length=25, default="普通用户")
+    level = models.IntegerField(default=1)
+
+    class Meta:
+        db_table = 'User'  # 自己设计表名
+        verbose_name='用户'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.nickname
 
 # 用户详细信息表
 class UserInfo(models.Model):
@@ -40,7 +62,7 @@ class UserInfo(models.Model):
     # 个性签名
     signature = models.CharField(max_length=255, default="这个家伙还没打算写自己的个性签名...")
     # 用户ID外键
-    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='UserInfo_set')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='UserInfo_set')
     # 性别，1-male  2-famale 0-unknown
     gender = models.IntegerField(default='0')
     # 生日
@@ -49,7 +71,9 @@ class UserInfo(models.Model):
     modified = models.DateTimeField(auto_now=True)
     # 信息完整度 “10“-email "11:-email and phone之类的
     registerinfo = models.CharField(max_length=2, default="000")
-
+    class Meta:
+        db_table = 'UserInfo'  # 自己设计表名
+        verbose_name='用户详细信息'
 
 class EmailCode(models.Model):
     objects = models.manager
@@ -60,7 +84,9 @@ class EmailCode(models.Model):
     code = models.CharField(max_length=6)
     # 生成日期
     generatedate = models.DateTimeField(auto_now_add=True)
-
+    class Meta:
+        db_table = 'EmailCode'  # 自己设计表名
+        verbose_name='邮箱验证信息'
 
 class PhoneCode(models.Model):
     objects = models.manager
@@ -71,7 +97,9 @@ class PhoneCode(models.Model):
     code = models.CharField(max_length=6)
     # 生成的日期
     generatedate = models.DateTimeField(auto_now_add=True)
-
+    class Meta:
+        db_table = 'PhoneCode'  # 自己设计表名
+        verbose_name='手机号验证信息'
 
 # 用来记录发送验证码邮件和短信的数据
 class PhoneAndEmailLog(models.Model):
@@ -87,19 +115,21 @@ class PhoneAndEmailLog(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     # 日志
     log = models.CharField(max_length=255)
-
+    class Meta:
+        db_table = 'PhoneAndEmailLog'  # 自己设计表名
+        verbose_name='手机号邮件发送记录'
 
 class UserToken(models.Model):
     objects = models.manager
 
-    user = models.OneToOneField(to='User', on_delete=models.CASCADE, related_name='Usertoken_set')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='Usertoken_set')
     token = models.CharField(max_length=100, verbose_name="用户token")
     expiration_time = models.DateTimeField(default=datetime.now, verbose_name="过期时间")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
-    class Mate:
+    class Meta:
         managed = True
-        db_table = "user_token"
+        db_table = "UserToken"
         verbose_name = "用户Token"
         verbose_name_plural = verbose_name
 
@@ -110,7 +140,7 @@ class UserToken(models.Model):
 # 头像
 class Avatar(models.Model):
     objects = models.manager
-    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='Avatar_set')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='Avatar_set')
     media_id = models.AutoField(primary_key=True)
     link = models.CharField(max_length=255, blank=True, null=True)
     media_type = models.CharField(max_length=20, blank=True, null=True)
@@ -121,6 +151,7 @@ class Avatar(models.Model):
                                         verbose_name="头像")
 
     class Meta:
+        db_table = "Avatar"
         verbose_name='头像'
         verbose_name_plural = verbose_name
 
@@ -155,10 +186,11 @@ class User(models.Model):
 class UserLoginLog(models.Model):
     objects = models.manager
 
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='Login_set')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Login_set')
     log = models.CharField(max_length=255)
     logTime = models.DateTimeField(auto_now=True)
 
     class Meta:
+        db_table = "UserLoginLog"
         verbose_name='登录日志'
         verbose_name_plural = verbose_name

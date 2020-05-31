@@ -45,12 +45,11 @@ INSTALLED_APPS = [
     'django_extensions',
     'channels',
     'fei',  # Fei-app
-    # 'qiniustorage', #七牛云存储 by fei
+    'qiniustorage', #七牛云存储 by fei
     'wangeditor', # wangEditor by fei
     'user',  # 用户管理
     'website',  # 网站相关信息
     'api',  # 接口，获取各种数据信息
-    'qiniustorage',  # 七牛云
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -103,12 +102,18 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-ROOT_URLCONF = 'backsite.urls'
-print("templates dir:"+os.path.join(BASE_DIR, 'templates'))
+ROOT_URLCONF = "backsite.urls"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
+STATICFILES_DIRS = (
+    STATIC_ROOT+"templates/static",
+)
+print("STATIC_ROOT: "+STATIC_ROOT)
+print("templates dir:"+os.path.join(STATIC_ROOT, 'templates'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(STATIC_ROOT, 'templates/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -198,16 +203,11 @@ APPEND_SLASH = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
-STATICFILES_DIRS = (
-    os.path.join(os.path.join(BASE_DIR, 'static')),
-)
-print("STATIC_ROOT: "+STATIC_ROOT)
+
 
 
 # 飞哥专场
-AUTH_USER_MODEL = 'compayu.UserProfile'  # 使django自带user不起作用，用自己重写的
+# AUTH_USER_MODEL = 'compayu.UserProfile'  # 使django自带user不起作用，用自己重写的
 
 # 七牛云
 QINIU_ACCESS_KEY = '3j71vJK9qHMV9olqMfqdixed6_mOFBayKdlaieml'  # AK
