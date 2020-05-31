@@ -137,7 +137,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_backsite_default',
         'USER': 'root',
-        'PASSWORD': 'pzhl990512',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
     },
@@ -145,7 +145,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_backsite_compayu',
         'USER': 'root',
-        'PASSWORD': 'pzhl990512',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
