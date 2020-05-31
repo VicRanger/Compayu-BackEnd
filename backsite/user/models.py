@@ -159,27 +159,27 @@ class Avatar(models.Model):
         return '%s %s' % (self.link, self.media_type)
 
 
-class User(models.Model):
-    objects = models.manager
-
-    nickname = models.CharField(max_length=255, blank=True, null=True)
-    phonenum = models.CharField(max_length=11)
-    email = models.EmailField(max_length=255)
-    wxopenid = models.CharField(max_length=255, blank=True, null=True)
-    signup_type = models.CharField(max_length=255, blank=True, null=True)
-    signup_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    password = models.CharField(max_length=255)
-    lastlogin = models.DateTimeField(auto_now=True)
-    avatar = models.ImageField(max_length=512, default=os.path.join(MEDIA_ROOT, 'avatar/defaultAvatar.png'))
-    userType = models.CharField(max_length=25, default="普通用户")
-    level = models.IntegerField(default=1)
-
-    class Meta:
-        verbose_name='用户'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.nickname
+# class User(models.Model):
+#     objects = models.manager
+#
+#     nickname = models.CharField(max_length=255, blank=True, null=True)
+#     phonenum = models.CharField(max_length=11)
+#     email = models.EmailField(max_length=255)
+#     wxopenid = models.CharField(max_length=255, blank=True, null=True)
+#     signup_type = models.CharField(max_length=255, blank=True, null=True)
+#     signup_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+#     password = models.CharField(max_length=255)
+#     lastlogin = models.DateTimeField(auto_now=True)
+#     avatar = models.ImageField(max_length=512, default=os.path.join(MEDIA_ROOT, 'avatar/defaultAvatar.png'))
+#     userType = models.CharField(max_length=25, default="普通用户")
+#     level = models.IntegerField(default=1)
+#
+#     class Meta:
+#         verbose_name='用户'
+#         verbose_name_plural = verbose_name
+#
+#     def __str__(self):
+#         return self.nickname
 
 
 # 用来记录用户的登录记录
