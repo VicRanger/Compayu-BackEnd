@@ -55,6 +55,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'fei',  # Fei-app
+    'qiniustorage', #七牛云存储 by fei
+    'wangeditor', # wangEditor by fei
+    'user',  # 用户管理
+    'website',  # 网站相关信息
+    'api',  # 接口，获取各种数据信息
 ]
 ASGI_APPLICATION = 'backsite.ws_router.application'
 MIDDLEWARE = [
@@ -63,7 +68,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -106,14 +111,19 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
-ALLOWED_HOSTS = ['*']
 
-ROOT_URLCONF = 'backsite.urls'
-
+ROOT_URLCONF = "backsite.urls"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
+STATICFILES_DIRS = (
+    STATIC_ROOT+"templates/static",
+)
+print("STATIC_ROOT: "+STATIC_ROOT)
+print("templates dir:"+os.path.join(STATIC_ROOT, 'templates'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(STATIC_ROOT, 'templates/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,6 +160,7 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
+            "charset": "utf8mb4", #设定charset以存储富文本中的表情
         }
     },
 
@@ -165,6 +176,7 @@ DATABASES = {
 DATABASE_APPS_MAPPING = {
     'compayu': 'db_compayu',
     'fei': 'db_compayu',
+    'user': 'db_compayu',
 }
 
 DATABASE_ROUTERS = ['backsite.db_router.DbRouter']
@@ -201,13 +213,11 @@ APPEND_SLASH = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
-print("STATIC_ROOT: "+STATIC_ROOT)
+
 
 
 # 飞哥专场
-AUTH_USER_MODEL = 'compayu.UserProfile'  # 使django自带user不起作用，用自己重写的
+# AUTH_USER_MODEL = 'compayu.UserProfile'  # 使django自带user不起作用，用自己重写的
 
 # 七牛云
 QINIU_ACCESS_KEY = '3j71vJK9qHMV9olqMfqdixed6_mOFBayKdlaieml'  # AK
@@ -219,3 +229,26 @@ DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'  # 只用七牛托�
 
 MEDIA_URL = QINIU_BUCKET_DOMAIN
 MEDIA_ROOT = QINIU_BUCKET_DOMAIN
+
+# 蒲赠霖
+# 前端cookie保留时长,单位是毫秒，记得乘1000
+LOGIN_TIME = 60 * 30 * 1000
+
+# 发送验证邮件设置
+# SMTP授权码 EQKWTAFMTXISNETK
+EMAIL_USE_SSL = True
+
+EMAIL_HOST = 'smtp.163.com'
+
+EMAIL_PORT = 465
+
+EMAIL_HOST_USER = "y_chromosome@163.com"  # 帐号
+
+EMAIL_HOST_PASSWORD = "EQKWTAFMTXISNETK"  # 授权码（****）
+# 默认邮件
+DEFAULT_FROM_EMAIL = 'compayu <y_chromosome@163.com>'
+
+# 云片网APIKEY
+APIKEY = "c0c26a14c24007f6e53545193a48e332"
+# 开启验证短信, 部署前记得打开,还要在云片网上设置ip白名单
+APIKEYUSED = True

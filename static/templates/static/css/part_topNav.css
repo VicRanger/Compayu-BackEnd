@@ -1,0 +1,158 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+@font-face {
+	font-family: 'slogan';
+	src: local('slogan'),
+    url('../font/slogan.otf') format("truetype");
+}
+
+/*顶部导航栏*/
+#topNav {
+	position: fixed;
+	margin-top: 4px;
+	width: 100%;
+	height: 80px;
+	transition: all 0.4s ease;
+	overflow: hidden;
+}
+#topNav_slider{
+	position: relative;
+	margin-top: -80px;
+	width: 100%;
+	height: 80px;
+	display: flex;
+	flex-direction: row;
+	transition: all 0.3s ease;
+	background: linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.7));
+}
+#topNav:hover #topNav_slider{
+	margin-top: 0px;
+}
+#topNav_icon{
+	height: 100%;
+	width: 20%;
+	margin-left: 5%;
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+}
+#topNav_icon:hover{
+	cursor: pointer;
+}
+#topNav_icon_img{
+	margin-top: 10px;
+	height: 60px;
+}
+#topNav_slogan{
+	height: 100%;
+	width: 65%;
+	margin-left: 5%;
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	justify-content: center;
+}
+#topNav_slogan_p{
+	font-family: slogan;
+	font-size: 45px;
+	margin-left: 18px;
+	margin-top: 7px;
+}
+#topNav_buttons{
+	height: 100%;
+	width: 55%;
+	margin-left: 5%;
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	justify-content: flex-end;
+}
+.topNav_navButton{
+	width: 16%;
+	height: 64px;
+	margin-top: 7px;
+	margin-right: 5%;
+	color: currentcolor;
+	border: none;
+	background: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	border-radius: 5%;
+	font-size: medium;
+}
+.topNav_navButton:hover{
+	background: rgba(255,255,255,0.6);
+}
+#topNav_RegisterOrLogin{
+	width: 15%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-self: center;
+}
+#topNav_regester{
+	width: 35%;
+	margin-right: 5%;
+	height: 40px;
+	margin-top: 20px;
+	border: none;
+	background: none;
+	font-size: medium;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#topNav_regester:hover{
+	background: rgba(255,255,255,0.6);
+	border-radius: 5%;
+}
+#topNav_login{
+	width: 35%;
+	margin-left: 5%;
+	height: 40px;
+	margin-top: 20px;
+	border: none;
+	background: none;
+	font-size: medium;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#topNav_login:hover{
+	background: rgba(255,255,255,0.6);
+	border-radius: 5%;
+}
+#userinfoContainer{
+	width: 15%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-self: center;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#userinfoContainer:hover{
+	background: rgba(255,255,255,0.75);
+}
+#topNav_avatar{
+	height:60px;
+	width: 60px;
+	margin-top: 10px;
+	margin-left: 25px;
+}
+#topNav_nickname_container{
+	width: 65%;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#topNav_nickname{
+	width: 100%;
+	line-height: 50px;
+	text-align: center;
+	font-size: 25px;
+	font-family: slogan;
+}

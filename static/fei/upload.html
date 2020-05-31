@@ -83,7 +83,7 @@
                             }
                     }).then((res) => {
                         alert(res.data.message)
-                        this.link =  res.data.link
+                        this.link =  res.data.data[0]
                     }).catch((err) => {
                         console.log(err)
                     })

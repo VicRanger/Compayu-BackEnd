@@ -1,0 +1,4 @@
+function pageInit(){
+	topNavInit();
+	
+}
