@@ -176,6 +176,36 @@ function setUserData(page){
 			girl.checked = true;
 		}
 		$('#userCenter_birthday').val(userinfo.birthday);
+		
+		var mythought;
+		$.ajax({
+			url:'/api/user/',
+			type:'POST',//HTTP请求类型
+			timeout:5000,//超时时间设置为10秒；
+			dataType: "json",
+			async: false,
+			data: {
+				'token': getToken(),
+				'what' : 'thought',
+				'where' : 'mostView',
+			},// data是必须的,可以空,不能没有
+			success:function(ret){
+				if (ret.code == '200'){
+					mythought = ret;
+				}
+				else if(ret.code=='403'){
+					isLogin = 'False';
+					alert("你的登录已过期,请重新登录");
+					jumpToLogin();
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				console.log(errorThrown);
+			}
+		});
+		
+		var page1 = document.getElementById("userCenter_thought_mostview");
+		alert(mythought.msg);
 	}else if (page == 1){
 		// 我的想法页面
 		var thisPage = document.getElementById("userCenter_mythought");
