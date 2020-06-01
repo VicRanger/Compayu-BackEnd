@@ -18,3 +18,6 @@ hints：makemigrations命令对所有模型都会作用，只会生成迁移规�
 #### 查错指北
  - 检查Mysql的用户名密码、端口号是否指定正确（位于`backsite\backsite\settings.py`中的`DATABASES`）
  - 检查Mysql中是否已经建立相应名字的`database`，对应的定义位于`backsite\backsite\settings.py`中的`DATABASES.xxx.NAME`。
+
+#### 启动项目，贴在这
+ python manage.py runserver_plus --cert server.crt 127.0.0.1:8000

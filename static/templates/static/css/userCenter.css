@@ -135,6 +135,11 @@ body{
 	margin-left: 10px;
 	cursor: pointer;
 }
+.userCenter_up_icon{
+	height: 100%;
+	margin-left: 10px;
+	cursor: pointer;
+}
 #userCenter_up_email{
 	height: 100%;
 	margin-left: 10px;
@@ -241,7 +246,216 @@ body{
 	flex-direction: column;
 	background: whitesmoke;
 }
+.userCenter_title{
+	width: 100%;
+	font-weight: 300;
+	font-size: x-large;
+}
+.userCenter_subtitle{
+	font-weight: 200;
+	font-size: large;
+	margin-left: 10px;
+}
 #userCenter_myinfo{
 	width: 100%;
-	height: 500px;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#userCenter_myinfo_level{
+	width: 95%;
+	margin-top: 24px;
+	display: flex;
+	flex-direction: column;
+}
+#userCenter_level{
+	height: 100px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	overflow: hidden;
+}
+#userCenter_level_p{
+	width: 5%;
+	margin-left: 3%;
+	height: 20%;
+	color: white;
+	background: #2244CC;
+	text-align: center;
+	border-radius: 5px;
+}
+#userCenter_level_lineContainer{
+	width: 60%;
+	margin-left: 5%;
+	height: 5px;
+	border-radius: 2px;
+	display: flex;
+	justify-content: flex-start;
+	border: rgba(0,0,0,0.5) solid 1px;
+}
+#userCenter_level_line{
+	transition: all 0.2s ease;
+	background: #2244CC;
+	width: 0%;
+	height: 100%;
+}
+
+#userCenter_myinfo_userinfo{
+	width: 95%;
+	margin-top: 14px;
+	display: flex;
+	flex-direction: column;
+}
+.userCenter_row{
+	width: 100%;
+	height: 60px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#genderSwitch{
+	width: 40%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+#userCenter_genderImg{
+	height: 50px;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+#userCenter_boy{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#userCenter_boy:checked:after{
+	content: '';
+	width: 30px;
+	height: 30px;
+	border: 2px solid #EDD19D;
+	display: inline-block;
+	border-radius: 50%;
+	vertical-align: middle;
+}
+#userCenter_girl{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#userCenter_girl:checked:after{
+	content: '';
+	width: 30px;
+	height: 30px;
+	border: 2px solid #FF4500;
+	display: inline-block;
+	border-radius: 50%;
+	vertical-align: middle;
+}
+.birthdayInput{
+	border: none;
+	background: transparent;
+	border-bottom: #111111 solid 2px;
+	width: 25%;
+	font-size: large;
+	cursor: pointer;
+	text-align: center;
+}
+#submitBtn_myinfo{
+	transition: all 0.2s ease;
+	display: flex;
+	width: 60%;
+	flex-direction: column;
+	align-items: center;
+	display: none;
+	opacity: 0;
+}
+#myinfoSubmitBtn{
+	width: 45%;
+	border: #2244CC solid 2px;
+	height: 30px;
+	background: transparent;
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+#myinfoSubmitBtn:hover{
+	color: white;
+	background: #2244CC;
+}
+#userCenter_myinfo_thought{
+	width: 95%;
+	margin-top: 14px;
+	display: flex;
+	flex-direction: column;
+}
+.thoughtBtn{
+	border: none;
+	width: 35%;
+	background: transparent;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#userCenter_thought_mostview{
+	width: 100%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	display: none;
+}
+#userCenter_thought_newest{
+	width: 100%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	display: none;
+}
+#showMoreThought{
+	width: 50%;
+	text-align: right;
+	font-size: small;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#showMoreThought:hover{
+	color: #2244CC;
+}
+#userCenter_jitang{
+	display: flex;
+	width: 84%;
+	margin-left: 8%;
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	color: #4169E1;
+	margin-top: 5px;
+	background: #FFFAF0;
+	font-size: small;
+}
+.userCenter_thoughtRow{
+	width: 90%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 5%;
+	height: 100px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0,0,0,0.05);
+}
+
+#userCenter_mythought{
+	display: none;
+	width: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }

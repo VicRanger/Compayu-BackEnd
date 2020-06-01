@@ -138,8 +138,6 @@ class UserToken(models.Model):
         return self.token
 
 
-
-
 # 头像
 class Avatar(models.Model):
     objects = models.manager
@@ -162,8 +160,27 @@ class Avatar(models.Model):
         return '%s %s' % (self.link, self.media_type)
 
 
-
-
+# class User(models.Model):
+#     objects = models.manager
+#
+#     nickname = models.CharField(max_length=255, blank=True, null=True)
+#     phonenum = models.CharField(max_length=11)
+#     email = models.EmailField(max_length=255)
+#     wxopenid = models.CharField(max_length=255, blank=True, null=True)
+#     signup_type = models.CharField(max_length=255, blank=True, null=True)
+#     signup_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+#     password = models.CharField(max_length=255)
+#     lastlogin = models.DateTimeField(auto_now=True)
+#     avatar = models.ImageField(max_length=512, default=os.path.join(MEDIA_ROOT, 'avatar/defaultAvatar.png'))
+#     userType = models.CharField(max_length=25, default="普通用户")
+#     level = models.IntegerField(default=1)
+#
+#     class Meta:
+#         verbose_name='用户'
+#         verbose_name_plural = verbose_name
+#
+#     def __str__(self):
+#         return self.nickname
 
 
 # 用来记录用户的登录记录
@@ -177,4 +194,17 @@ class UserLoginLog(models.Model):
     class Meta:
         db_table = "UserLoginLog"
         verbose_name='登录日志'
+        verbose_name_plural = verbose_name
+
+
+# 鸡汤
+class Jitang(models.Model):
+    objects = models.manager
+
+    addtime = models.DateTimeField(auto_now_add=True)
+    jitang = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "Jitang"
+        verbose_name='心灵鸡汤'
         verbose_name_plural = verbose_name

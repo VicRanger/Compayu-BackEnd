@@ -82,9 +82,79 @@
 	<!--主题切换页面-->
 	<div id="userCenter_infoContainer">
 		<!--个人主页，包括一些个人的信息等等-->
-		<div id="userCenter_myinfo" class="userCenter_infoPage">
+		<div id="userCenter_myinfo">
+			<div id="userCenter_myinfo_level">
+				<p class="userCenter_title"> 个人经验 </p>
+				<div id="userCenter_level">
+					<p class="userCenter_subtitle" style="color: #2244CC;">我的经验：</p>
+					<p id="userCenter_level_p">LV1</p>
+					<div id="userCenter_level_lineContainer">
+						<div id="userCenter_level_line"></div>
+					</div>
+					<p id="userCenter_exp" style="color: #2244CC; margin-left: 10px;">1/100</p>
+					<p title="多多发送自己的想法吧" style="margin-left: 20px;color: #2244CC;cursor: pointer;">怎么获取经验？</p>
+				</div>
+			</div>
+			<div id="userCenter_myinfo_userinfo">
+				<p class="userCenter_title"> 我的信息 </p>
+				<div class="userCenter_row">
+					<p class="userCenter_subtitle">&emsp;&emsp;性别：</p>
+					<div id="genderSwitch">
+						<input onchange="showSubmitBtn()" type="radio" name="gender" id="userCenter_boy"/>
+						<img src="{% static 'img/gender.png' %}" id="userCenter_genderImg"/>
+						<input onchange="showSubmitBtn()" type="radio" name="gender" id="userCenter_girl"/>
+					</div>
+				</div>
+				<div class="userCenter_row">
+					<p class="userCenter_subtitle" style="margin-right: 125px;">&emsp;&emsp;生日：</p>
+					<input onchange="showSubmitBtn()" type="date" id="userCenter_birthday" class="birthdayInput"/>
+				</div>
+				<div id="submitBtn_myinfo">
+					<p style="font-size: small;color: darkslateblue;margin-top: 7px;margin-bottom: 3px;">谢谢你告诉我你的秘密，别忘了提交哦</p>
+					<input onclick="myinfoSubmit()" type="button" id="myinfoSubmitBtn" value="提&emsp;交"/>
+				</div>
+			</div>
+			<div id="userCenter_myinfo_thought">
+				<div style="display: flex;flex-direction: row;margin-bottom: 15px;">
+					<p class="userCenter_title" style="width: 15%;"> 我的想法 </p>
+					<div style="display: flex;width: 25%;flex-direction: column;align-items: center;">
+						<div style="width: 100%;height: 85%;display: flex;flex-direction: row;">
+							<input onclick="showMostView(1)" type="button" id="thoughtMostView" class="thoughtBtn" value="最多人看过"/>
+							<input onclick="showMostView(2)" type="button" id="thoughtNewest" class="thoughtBtn" value="最新发送"/>	
+						</div>
+						<div style="width: 100%;height: 15%;">
+							<div id="thoughtSubline" style="background: #2244CC;width: 35%;height: 30%;transition: all 0.2s ease;margin-left: 0%;"></div>
+						</div>
+					</div>
+					<p onclick="userCenter_changePage(2)" id="showMoreThought">查看更多</p>
+				</div>
+				<div id="userCenter_thought_mostview">
+					<div class="userCenter_thoughtRow">
+						<p style="color: #808080;">啊偶，空空如也</p>
+					</div>
+					<div class="userCenter_thoughtRow">
+						<p style="color: #808080;">啊偶，空空如也</p>
+					</div>
+				</div>
+				<div id="userCenter_thought_newest">
+					<div class="userCenter_thoughtRow">
+						<p style="color: #808080;">啊偶，空空如也</p>
+					</div>
+					<div class="userCenter_thoughtRow">
+						<p style="color: #808080;">啊偶，空空如也</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--想法管理页面-->
+		<div id="userCenter_mythought">
 			
 		</div>
+	</div>
+	<div id="userCenter_jitang">
+		<p>*/</p>
+		<p id="userCenter_jitang_p">生活里不能说的秘密，把它留在这里</p>
+		<p>/*</p>
 	</div>
 	
 	<!-- js -->

@@ -86,6 +86,8 @@ Modified by wzz 0525
 
 
 class Thought(models.Model):
+    objects = models.manager
+
     title = models.CharField(max_length=40)
     text = models.TextField()
     type_raw = models.CharField(max_length=20)
