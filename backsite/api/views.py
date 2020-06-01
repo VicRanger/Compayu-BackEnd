@@ -8,9 +8,7 @@ import random
 # Create your views here.
 from backsite.settings import LOGIN_TIME
 from backsite.token import getUserByToken
-from compayu.database_io import thought
 from user import models
-from compayu import models
 
 
 def setting(request):
@@ -133,6 +131,21 @@ def getuserinfo(request):
                     response['data'] = mythought
                     response['code'] = '200'
                     response['msg'] = '最多人阅读Thought'
+                elif where == 'newest':
+                    mythought = models.Thought.objects.filter(id=uid).order_by('-create_time')
+                    # 只取前两个
+                    count = mythought.count()
+                    if count >= 2:
+                        count = 2
+                    response['num'] = count
+                    response['data'] = mythought
+                    response['code'] = '200'
+                    response['msg'] = '最新Thought'
+                elif where == 'all' or where == '':
+                    mythought = models.Thought.objects.filter(id=uid)
+                    response['data'] = mythought
+                    response['code'] = '200'
+                    response['msg'] = '所有Thought'
 
     return JsonResponse(response)
 
