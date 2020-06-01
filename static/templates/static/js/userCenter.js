@@ -132,6 +132,10 @@ function setUserData(page){
 	// 按页码填充数据
 	if (page == 0){
 		// 个人主页
+		document.getElementById("userCenter_level_p").innerHTML = "LV"+parseInt(userinfo.level/100);
+		var exp = userinfo.level%100;
+		document.getElementById("userCenter_exp").innerHTML = exp + "/100";
+		document.getElementById("userCenter_level_line").style.width = exp + "%";
 		var boy = document.getElementById("userCenter_boy");
 		var girl = document.getElementById("userCenter_girl");
 		boy.checked = false;
