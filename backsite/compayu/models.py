@@ -85,6 +85,8 @@ Modified by wzz 0525
 
 
 class Thought(models.Model):
+    objects = models.manager
+
     title = models.CharField(max_length=40)
     text = models.TextField()
     type_raw = models.CharField(max_length=20)
@@ -99,7 +101,6 @@ class Thought(models.Model):
         Media, related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
     rich_text = models.ForeignKey(
         Editor, related_name='thought_content', on_delete=models.SET_NULL, blank=True, null=True)
-    viewtimes = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'Thought'

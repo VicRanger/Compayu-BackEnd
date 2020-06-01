@@ -395,17 +395,6 @@ body{
 	display: flex;
 	flex-direction: column;
 }
-.userCenter_thoughtRow{
-	width: 90%;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 5%;
-	height: 80px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	background: white;
-}
 .thoughtBtn{
 	border: none;
 	width: 35%;
@@ -450,7 +439,18 @@ body{
 	background: #FFFAF0;
 	font-size: small;
 }
-
+.userCenter_thoughtRow{
+	width: 90%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 5%;
+	height: 100px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0,0,0,0.05);
+}
 
 #userCenter_mythought{
 	display: none;

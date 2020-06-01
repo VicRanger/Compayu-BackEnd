@@ -140,7 +140,9 @@ function setUserData(page){
 		},// data是必须的,可以空,不能没有
 		success:function(ret){
 			if (ret.code == '200'){
-				document.getElementById("userCenter_jitang_p").innerHTML = ret.data;
+				if (ret.data){
+					document.getElementById("userCenter_jitang_p").innerHTML = ret.data;
+				}
 			}
 			else if(ret.code=='403'){
 				isLogin = 'False';

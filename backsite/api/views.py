@@ -1,16 +1,16 @@
-import random
-
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
-from rest_framework.views import APIView
-from rest_framework.response import Response
+import random
+
 
 
 # Create your views here.
 from backsite.settings import LOGIN_TIME
 from backsite.token import getUserByToken
+from compayu.database_io import thought
 from user import models
+from compayu import models
 
 
 def setting(request):
@@ -114,6 +114,26 @@ def getuserinfo(request):
                     response['msg'] = '用户数据更新: '+where
                     response['code'] = '200'
             return JsonResponse(response, safe=False)
+        elif what == 'thougth':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                where = request.POST.get('where', '')
+                if where == 'mostView':
+                    mythought = models.Thought.objects.filter(id=uid).order_by('-views')
+                    # 只取前两个
+                    count = mythought.count()
+                    if count >= 2:
+                        count = 2
+                    response['num'] = count
+                    response['data'] = mythought
+                    response['code'] = '200'
+                    response['msg'] = '最多人阅读Thought'
+
     return JsonResponse(response)
 
 
