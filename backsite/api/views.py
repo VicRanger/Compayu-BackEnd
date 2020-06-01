@@ -1,3 +1,5 @@
+import random
+
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
@@ -81,6 +83,11 @@ def getuserinfo(request):
                 response["gender"] = userinfo.gender
                 response["birthday"] = userinfo.birthday
             return JsonResponse(response)
+        elif what == 'jitang':
+            jitang = models.Jitang.objects.filter()
+            rand = random.randint(1, jitang.count())
+            response['data'] = jitang[rand-1].jitang
+            response['code'] = '200'
         elif what == 'setuser':
             if uid == 0:
                 response['msg'] = '未查询到数据'

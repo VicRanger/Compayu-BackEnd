@@ -194,3 +194,16 @@ class UserLoginLog(models.Model):
         db_table = "UserLoginLog"
         verbose_name='登录日志'
         verbose_name_plural = verbose_name
+
+
+# 鸡汤
+class Jitang(models.Model):
+    objects = models.manager
+
+    addtime = models.DateTimeField(auto_now_add=True)
+    jitang = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "Jitang"
+        verbose_name='心灵鸡汤'
+        verbose_name_plural = verbose_name

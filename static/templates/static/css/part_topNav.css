@@ -7,7 +7,11 @@
 	src: local('slogan'),
     url('../font/slogan.otf') format("truetype");
 }
-
+@font-face {
+	font-family: 'welcome2';
+	src: local('welcome2'),
+    url('../font/welcome_2.ttf') format("truetype");
+}
 /*顶部导航栏*/
 #topNav {
 	position: fixed;
@@ -154,5 +158,5 @@
 	line-height: 50px;
 	text-align: center;
 	font-size: 25px;
-	font-family: slogan;
+	font-family: welcome2;
 }

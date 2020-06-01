@@ -258,7 +258,7 @@ body{
 }
 #userCenter_myinfo{
 	width: 100%;
-	display: flex;
+	display: none;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -394,4 +394,68 @@ body{
 	margin-top: 14px;
 	display: flex;
 	flex-direction: column;
+}
+.userCenter_thoughtRow{
+	width: 90%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 5%;
+	height: 80px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background: white;
+}
+.thoughtBtn{
+	border: none;
+	width: 35%;
+	background: transparent;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#userCenter_thought_mostview{
+	width: 100%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	display: none;
+}
+#userCenter_thought_newest{
+	width: 100%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	display: none;
+}
+#showMoreThought{
+	width: 50%;
+	text-align: right;
+	font-size: small;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+#showMoreThought:hover{
+	color: #2244CC;
+}
+#userCenter_jitang{
+	display: flex;
+	width: 84%;
+	margin-left: 8%;
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	color: #4169E1;
+	margin-top: 5px;
+	background: #FFFAF0;
+	font-size: small;
+}
+
+
+#userCenter_mythought{
+	display: none;
+	width: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }

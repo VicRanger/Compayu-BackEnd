@@ -128,10 +128,38 @@ function setUserData(page){
 		var phone = document.getElementById("userCenter_up_phone");
 		phone.setAttribute('src', "/static/img/phone_on.png");
 	}
+	$.ajax({
+		url:'/api/user/',
+		type:'POST',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		dataType: "json",
+		async: false,
+		data: {
+			'token': getToken(),
+			'what' : 'jitang',
+		},// data是必须的,可以空,不能没有
+		success:function(ret){
+			if (ret.code == '200'){
+				document.getElementById("userCenter_jitang_p").innerHTML = ret.data;
+			}
+			else if(ret.code=='403'){
+				isLogin = 'False';
+				alert("你的登录已过期,请重新登录");
+				jumpToLogin();
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			console.log(errorThrown);
+		}
+	});
+	
 	page = getPage();
 	// 按页码填充数据
 	if (page == 0){
 		// 个人主页
+		var thisPage = document.getElementById("userCenter_myinfo");
+		thisPage.style.display = 'flex';
+		
 		document.getElementById("userCenter_level_p").innerHTML = "LV"+parseInt(userinfo.level/100);
 		var exp = userinfo.level%100;
 		document.getElementById("userCenter_exp").innerHTML = exp + "/100";
@@ -146,6 +174,10 @@ function setUserData(page){
 			girl.checked = true;
 		}
 		$('#userCenter_birthday').val(userinfo.birthday);
+	}else if (page == 1){
+		// 我的想法页面
+		var thisPage = document.getElementById("userCenter_mythought");
+		thisPage.style.display = 'flex';
 	}
 }
 
@@ -229,6 +261,7 @@ function bindKeyPress(){
 			changeSignature(sig.value);
 	    }
 	});
+	showMostView(1);
 }
 
 function logout(){
@@ -364,4 +397,25 @@ function myinfoSubmit(){
 			console.log(errorThrown);
 		}
 	});
+}
+
+function showMostView(w){
+	var b1 = document.getElementById("thoughtMostView");
+	var b2 = document.getElementById("thoughtNewest");
+	var subline = document.getElementById("thoughtSubline");
+	var p1 = document.getElementById("userCenter_thought_mostview");
+	var p2 = document.getElementById("userCenter_thought_newest");
+	if (w==1){
+		b1.style.color = "#2244CC";
+		b2.style.color = "black";
+		subline.style.marginLeft = '0%';
+		p1.style.display = 'flex';
+		p2.style.display = 'none';
+	}else if(w==2){
+		b1.style.color = "black";
+		b2.style.color = "#2244CC";
+		subline.style.marginLeft = '35%';
+		p2.style.display = 'flex';
+		p1.style.display = 'none';
+	}
 }
