@@ -3,10 +3,14 @@ from django.shortcuts import render
 from django.utils import timezone
 import random
 
+from django.core import serializers
+
 from backsite.settings import LOGIN_TIME
 from backsite.token import getUserByToken
 from compayu.models import Thought
+from fei.serializers import ThoughtSerializer
 from user.models import User, UserInfo, Jitang, Avatar
+from rest_framework.response import Response
 
 
 def setting(request):
@@ -120,16 +124,15 @@ def getuserinfo(request):
             else:
                 where = request.POST.get('where', '')
                 if where == 'mostView':
-                    mythought = Thought.objects.filter(id=uid).order_by('-views')
+                    mythought = Thought.objects.filter(author_id=uid).order_by('-views')
                     # 只取前两个
                     count = mythought.count()
                     if count >= 2:
                         count = 2
                     response['num'] = count
-                    response['data'] = mythought
+                    response['data'] = serializers.serialize("json", mythought)
                     response['code'] = '200'
                     response['msg'] = '最多人阅读Thought'
-                    return print(mythought)
                 elif where == 'newest':
                     mythought = Thought.objects.filter(id=uid).order_by('-create_time')
                     # 只取前两个

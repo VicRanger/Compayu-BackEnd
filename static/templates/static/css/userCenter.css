@@ -450,6 +450,98 @@ body{
 	align-items: center;
 	justify-content: center;
 	background: rgba(0,0,0,0.05);
+	transition: all 0.2s ease;
+}
+.userCenter_thoughtRow:hover{
+	background: #FFFFFF;
+	cursor: pointer;
+}
+.thoughtRow_num{
+	width: 8%;
+	height: 70%;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	background: #FFA8DF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.thoughtRow_num_p{
+	width: 100%;
+	color: white;
+	text-align: center;
+	font-size: large;
+}
+.thoughtRow_title{
+	width: 15%;
+	height: 70%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: rgba(255,255,255,0.5);
+}
+.thoughtRow_title_p{
+	width: 100%;
+	height: 49%;
+	text-align: center;
+}
+.thoughtRow_time{
+	width: 100%;
+	height: 49%;
+	text-align: center;
+}
+.thoughtRow_text{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70%;
+	width: 53%;
+	background: rgba(255,255,255,0.5);
+	overflow: hidden;
+}
+.thoughtRow_text_container{
+	width: 90%;
+	height: 90%;
+}
+.thoughtRow_text_p{
+	font-size: small;
+}
+.thoughtRow_control{
+	height: 70%;
+	width: 15%;
+	border-bottom-right-radius: 15px;
+	border-top-right-radius: 15px;
+	background: rgba(255,255,255,0.5);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.thoughtRow_btn1{
+	width: 45%;
+	height: 50%;
+	margin-left: 3%;
+	background: transparent;
+	border: rgba(0,0,0,0.25) solid 1px;
+	color: #008B8B;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.thoughtRow_btn1:hover{
+	background: #111111;
+	color: white;
+}
+.thoughtRow_btn2{
+	width: 45%;
+	height: 50%;
+	background: transparent;
+	border: rgba(0,0,0,0.25) solid 1px;
+	color: #E33424;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.thoughtRow_btn2:hover{
+	background: #111111;
+	color: white;
 }
 
 #userCenter_mythought{

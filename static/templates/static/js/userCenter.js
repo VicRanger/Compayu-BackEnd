@@ -203,9 +203,18 @@ function setUserData(page){
 				console.log(errorThrown);
 			}
 		});
-		
 		var page1 = document.getElementById("userCenter_thought_mostview");
-		alert(mythought.msg);
+		// 先删除对应个数的元素
+		var rows = document.getElementsByClassName("userCenter_thoughtRow");
+		console.log(mythought);
+		for (var i=0;i<mythought.num;i++){
+			rows[i].parentNode.removeChild(rows[i]);
+		}
+		// 在添加对应个数的元素
+		for (var i=0;i<mythought.num;i++){
+			var newRow = createThoughtRow(mythought.data[i]);
+			page1.appendChild(newRow);
+		}
 	}else if (page == 1){
 		// 我的想法页面
 		var thisPage = document.getElementById("userCenter_mythought");
@@ -450,4 +459,13 @@ function showMostView(w){
 		p2.style.display = 'flex';
 		p1.style.display = 'none';
 	}
+}
+
+function createThoughtRow(thought){
+	var row = document.createElement('div');
+	row.setAttribute('class', 'userCenter_thoughtRow');
+	console.log(thought);
+	
+	
+	return row;
 }
