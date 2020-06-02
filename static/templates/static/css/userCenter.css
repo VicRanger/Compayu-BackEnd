@@ -711,3 +711,25 @@ body{
 	height: 35px;
 	cursor: pointer;
 }
+#mythoughtSearchList{
+	width: 95%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#mythought_searchNum{
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#mythought_searchNum_p{
+	color: rgba(0,0,0,0.8);
+}
+#mythought_searchResult{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}

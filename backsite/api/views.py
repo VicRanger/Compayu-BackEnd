@@ -198,9 +198,31 @@ def getuserinfo(request):
                         response['code'] = '200'
                         response['msg'] = '最多浏览Thought'
                     elif myfilter == 'search':
-                        search = request.POST.get('search')
+                        search = request.POST.get('search', '')
+                        isDate = False
+                        for i in search:
+                            if i == '-':
+                                isDate = True
+                        if isDate:
+                            date = search.split('-')
+                            mythought = Thought.objects.filter(author_id=uid, isdelete=False, create_time__year=date[0], create_time__month=date[1], create_time__day=date[2]).order_by('-create_time')
+                            if mythought.count() == 0:
+                                # 减少要求
+                                mythought = Thought.objects.filter(author_id=uid, isdelete=False,
+                                                                        create_time__month=date[1],
+                                                                        create_time__day=date[2]).order_by('-create_time')
+                        else:
+                            mythought = Thought.objects.filter(author_id=uid, isdelete=False, title=search).order_by('-create_time')
+                        paginator = Paginator(mythought, 10)
+                        if page == '':
+                            thispage = paginator.page(1)
+                        else:
+                            thispage = paginator.page(int(page))
+                        count = mythought.count()
+                        response['num'] = count
+                        response['data'] = ThoughtSerializer(thispage, many=True).data
                         response['code'] = '200'
-                        response['msg'] = '最多浏览Thought'
+                        response['msg'] = '搜索结果Thought'
     return JsonResponse(response)
 
 

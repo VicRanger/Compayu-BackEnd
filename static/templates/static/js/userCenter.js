@@ -129,6 +129,13 @@ function bindKeyPress(){
 	    }
 	});
 	showMostView(1);
+	
+	$('#userCenter_searchThought').bind('keydown',function(event){
+		if(event.keyCode == "13") {
+	        searchThought();
+	    }
+	});
+	document.getElementById("userCenter_searchThought").value = '';
 }
 
 function logout(){
@@ -668,7 +675,55 @@ function fiilData_thought(filter){
 		}
 	}
 	else{
+		var search = document.getElementById('userCenter_searchThought').value;
+		$.ajax({
+			url:'/api/user/',
+			type:'POST',//HTTP请求类型
+			timeout:5000,//超时时间设置为10秒；
+			dataType: "json",
+			async: false,
+			data: {
+				'token': getToken(),
+				'what' : 'thought',
+				'where' : 'filter',
+				'filter' : filter,
+				'page' : page,
+				'search' : search,
+			},// data是必须的,可以空,不能没有
+			success:function(ret){
+				if (ret.code == '200'){
+					mythought = ret;
+				}
+				else if(ret.code=='403'){
+					isLogin = 'False';
+					alert("你的登录已过期,请重新登录");
+					jumpToLogin();
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				console.log(errorThrown);
+			}
+		});
 		
+		var container = document.getElementById("mythought_searchResult");
+		// 总页数
+		var pagenum = parseInt(mythought.num/10) + 1;
+		setCookie('pagenum',pagenum);
+		setPageBtn(pagenum);
+		
+		document.getElementById("mythought_searchNum_p").innerHTML = "共搜索到&emsp;"+mythought.num+"&emsp;个结果";
+		
+		// 先清空表单
+		var childs = container.childNodes;
+		for(var i = childs .length - 1; i >= 0; i--) {
+		  container.removeChild(childs[i]);
+		}
+		
+		// 在添加对应个数的元素
+		for (var i=0;i<mythought.data.length;i++){
+			var newRow = createThoughtRow(mythought.data[i], i+1);
+			container.appendChild(newRow);
+		}
 	}
 }
 
@@ -758,4 +813,16 @@ function createPageBtn(page){
 	div.appendChild(p);
 	div.setAttribute('onclick','thoughtChangePage('+page+')');
 	return div;
+}
+
+function searchThought(){
+	var search = document.getElementById('userCenter_searchThought').value;
+	var page = getCookie('page');
+	if (search != ''){
+		setCookie('search', search);
+		changeFilter('search');
+		
+	}else{
+		alert("请输入有效值");
+	}
 }

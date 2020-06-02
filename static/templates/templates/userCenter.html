@@ -152,7 +152,7 @@
 				<p class="userCenter_title" style="width: 50%;">我的想法</p>
 				<div id="mythought_searchContainer">
 					<input id="userCenter_searchThought" type="text" placeholder="标题&emsp;/&emsp;日期"/>
-					<div id="userCenter_searchThought_btn">
+					<div onclick="searchThought()" id="userCenter_searchThought_btn">
 						<img id="mythought_searchImg" src="{% static 'img/userCenter_search.png' %}"/>
 					</div>
 				</div>
@@ -172,7 +172,12 @@
 					
 				</div>
 				<div id="mythoughtSearchList">
-					
+					<div id="mythought_searchNum">
+						<p id="mythought_searchNum_p">共搜索到&emsp;0&emsp;个结果</p>
+					</div>
+					<div id="mythought_searchResult">
+						
+					</div>
 				</div>
 				<div id="mythought_pageContainer">
 
