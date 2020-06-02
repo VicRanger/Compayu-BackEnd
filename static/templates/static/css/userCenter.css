@@ -706,3 +706,8 @@ body{
 	background: #1122AA;
 	color: white;
 }
+.mythought_imgBtn{
+	width: 35px;
+	height: 35px;
+	cursor: pointer;
+}

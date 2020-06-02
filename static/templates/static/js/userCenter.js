@@ -496,7 +496,7 @@ function setUserData(page){
 		var thisPage = document.getElementById("userCenter_mythought");
 		thisPage.style.display = 'flex';
 		// 初始化第一页
-		setCookie('paeg', 1);
+		setCookie('page', 1);
 		changeFilter('time');
 	}else if (page == 2){
 		
@@ -653,6 +653,7 @@ function fiilData_thought(filter){
 		var container = document.getElementById("mythoughtList");
 		// 总页数
 		var pagenum = parseInt(mythought.num/10) + 1;
+		setCookie('pagenum',pagenum);
 		setPageBtn(pagenum);
 		// 先清空表单
 		var childs = container.childNodes;
@@ -702,6 +703,22 @@ function thoughtChangePage(p){
 	setCookie('page', p);
 	fiilData_thought(getCookie('filter'));
 }
+function leftAndRightPage(w){
+	page = parseInt(getCookie('page'));
+	if (w == 1){
+		if (page > 1){
+			page -= 1;
+			setCookie('page', page);
+			fiilData_thought(getCookie('filter'));
+		}
+	}else if(w == 2){
+		if (page < getCookie('pagenum')){
+			page += 1;
+			setCookie('page', page);
+			fiilData_thought(getCookie('filter'));
+		}
+	}
+}
 
 function setPageBtn(pagenum){
 	var cont = document.getElementById("mythought_pageContainer");
@@ -711,6 +728,13 @@ function setPageBtn(pagenum){
 	for(var i = childs .length - 1; i >= 0; i--) {
 	  cont.removeChild(childs[i]);
 	}
+	
+	var last = document.createElement('img');
+	last.setAttribute('class', 'mythought_imgBtn');
+	last.setAttribute('src', '/static/img/userCenter_lastpage.png');
+	last.setAttribute('onclick', 'leftAndRightPage(1)');
+	cont.appendChild(last);
+	
 	for (var i=0;i<pagenum;i++){
 		var child = createPageBtn(i+1);
 		if (i+1 == page){
@@ -718,6 +742,12 @@ function setPageBtn(pagenum){
 		}
 		cont.appendChild(child);
 	}
+	
+	var next = document.createElement('img');
+	next.setAttribute('class', 'mythought_imgBtn');
+	next.setAttribute('src', '/static/img/userCenter_nextpage.png');
+	next.setAttribute('onclick', 'leftAndRightPage(2)');
+	cont.appendChild(next);
 }
 
 function createPageBtn(page){
