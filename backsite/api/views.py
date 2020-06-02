@@ -107,6 +107,7 @@ def getuserinfo(request):
             rand = random.randint(1, jitang.count())
             response['data'] = jitang[rand-1].jitang
             response['code'] = '200'
+            response['msg'] = '获得心灵鸡汤'
         elif what == 'setuser':
             if uid == 0:
                 response['msg'] = '未查询到数据'
@@ -272,7 +273,6 @@ def changeAvatar(request):
                 qiniu.save()
             user.avatar = link
             user.save()
-            print(link)
             response['msg'] = '用户头像已更新'
             response['data'] = str(user.avatar)
             response['code'] = '200'
