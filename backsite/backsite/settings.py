@@ -28,10 +28,9 @@ DEBUG = True
 # 预测服务是否开启
 USE_PREDICTION = True
 # 预测服务守护进程心跳
-PREDICTION_CHECK_TIME = 31
+PREDICTION_CHECK_TIME = 51
 # 预测服务守护进程关闭超时时间
-PREDICTION_CLOSE_TIME = 60
-
+PREDICTION_CLOSE_TIME = 100
 
 
 ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink", "cdn.wzz.ink"]

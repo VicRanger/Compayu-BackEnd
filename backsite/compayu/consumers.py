@@ -25,9 +25,9 @@ class ThoughtComsumer(AsyncJsonWebsocketConsumer):
         )
 
     async def receive_json(self, data):
-        print(type(data),data)
+        # print(type(data),data)
         if data['msg_type'] == ReceiveMsgType.SendThought.value:
-            await writeThoughtAsync(data['data'])
+            # await writeThoughtAsync(data['data'])
             await self.send_json({
                 'msg_type': SendMsgType.ReceiveThoughtSuccess.value,
                 'data': data['data']

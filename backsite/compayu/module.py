@@ -73,7 +73,7 @@ class Module:
         predictions = res['results']
         for index, text in enumerate(inputs):
             print("%s\tpredict=%s" % (inputs[index], predictions[index]))
-        return predictions
+        return predictions[0]
 
 
 class check_active_worker(threading.Thread):

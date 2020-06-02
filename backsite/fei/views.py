@@ -15,13 +15,13 @@ import json, re #fei
 
 
 # Create your views here.
-@csrf_exempt
-class ThoughtAPIView(APIView):
-    def get(self, request, format=None):
-        thought_id = self.request.query_params.get("id", 0)
-        thoughts = Thought.objects.filter(thought_id = int(thought_id))
-        thoughts_serializer = ThoughtSerializer(thoughts, many=True)
-        return Response(thoughts_serializer.data)
+# @csrf_exempt
+# class ThoughtAPIView(APIView):
+#     def get(self, request, format=None):
+#         thought_id = self.request.query_params.get("id", 0)
+#         thoughts = Thought.objects.filter(thought_id = int(thought_id))
+#         thoughts_serializer = ThoughtSerializer(thoughts, many=True)
+#         return Response(thoughts_serializer.data)
 
 class postImg(APIView):
     def post(self,request):

@@ -19,6 +19,12 @@ class Editor(models.Model):
         db_table = 'Editor'  # 自己设计表名
         verbose_name = '富文本'
         verbose_name_plural = verbose_name
+    def json(self):
+        ret = {}
+        fields = ['content', 'text']
+        for f in fields:
+            ret[f] = str(getattr(self, f))
+        return ret
 
 
 '''
@@ -89,7 +95,6 @@ class Thought(models.Model):
     objects = models.manager
 
     title = models.CharField(max_length=40)
-    text = models.TextField()
     type_raw = models.CharField(max_length=20)
     type_ai = models.CharField(max_length=20, blank=True, null=True)
     type_human = models.CharField(max_length=20, blank=True, null=True)
@@ -111,7 +116,16 @@ class Thought(models.Model):
 
     def json(self):
         ret = {}
-        fields = ['id', 'title', 'text', 'type_raw', 'create_time', 'views']
+        fields = ['id', 'title', 'type_raw', 'create_time', 'views']
         for f in fields:
             ret[f] = str(getattr(self, f))
+        foreign_key = ['rich_text']
+        for fk in foreign_key:
+            ret[fk] = getattr(self,fk).json()
+        if self.author:
+            ret['user_id'] = self.author.id
+            ret['user_avatar'] = str(self.author.avatar)
+            ret['user_nickname'] = self.author.nickname
+        else:
+            ret['user_id'] = -1
         return ret
