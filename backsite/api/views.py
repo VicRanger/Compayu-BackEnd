@@ -7,7 +7,7 @@ from django.core import serializers
 
 from backsite.settings import LOGIN_TIME
 from backsite.token import getUserByToken
-from compayu.models import Thought
+from compayu.models import Thought, Editor
 from fei.serializers import ThoughtSerializer
 from user.models import User, UserInfo, Jitang, Avatar
 from rest_framework.response import Response
@@ -61,6 +61,24 @@ def getuserinfo(request):
                 response['data'] = str(user.nickname)
                 response['code'] = '200'
             return JsonResponse(response)
+        elif what == 'thoughtContent':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                tid = request.POST.get('id', '')
+                tcontent = Editor.objects.filter(id=tid)
+                if tcontent.count() > 0:
+                    response['msg'] = '想法编辑器实例'
+                    response['content'] = tcontent[0].content
+                    response['text'] = tcontent[0].text
+                    response['code'] = '200'
+                else:
+                    response['msg'] = '未查询到数据'
+                    response['code'] = '404'
         elif what == 'userinfo':
             if uid == 0:
                 response['msg'] = '未查询到数据'
@@ -130,21 +148,21 @@ def getuserinfo(request):
                     if count >= 2:
                         count = 2
                     response['num'] = count
-                    response['data'] = serializers.serialize("json", mythought)
+                    response['data'] = ThoughtSerializer(mythought, many=True).data
                     response['code'] = '200'
                     response['msg'] = '最多人阅读Thought'
                 elif where == 'newest':
-                    mythought = Thought.objects.filter(id=uid).order_by('-create_time')
+                    mythought = Thought.objects.filter(author_id=uid).order_by('-create_time')
                     # 只取前两个
                     count = mythought.count()
                     if count >= 2:
                         count = 2
                     response['num'] = count
-                    response['data'] = mythought
+                    response['data'] = ThoughtSerializer(mythought, many=True).data
                     response['code'] = '200'
                     response['msg'] = '最新Thought'
                 elif where == 'all' or where == '':
-                    mythought = Thought.objects.filter(id=uid)
+                    mythought = Thought.objects.filter(author_id=uid)
                     response['data'] = mythought
                     response['code'] = '200'
                     response['msg'] = '所有Thought'

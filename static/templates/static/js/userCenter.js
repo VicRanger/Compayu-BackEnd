@@ -48,180 +48,6 @@ function titleInit(){
 }
 
 
-// 填入用户现在的信息
-function setUserData(page){
-	// 头像
-	var avatar = document.getElementById("userCenter_avatar");
-	$.ajax({
-		url:'/api/user/',
-		type:'POST',//HTTP请求类型
-		timeout:5000,//超时时间设置为10秒；
-		dataType: "json",
-		data: {
-			'token': getToken(),
-			'what' : 'avatar',
-		},// data是必须的,可以空,不能没有
-		success:function(ret){
-			if (ret.code == '200' && ret.data != 'https://cdn.wzz.ink/avatar/defaultAvatar.png'){
-				avatar.setAttribute('src', ret.data);
-			}
-			else if(ret.code=='403'){
-				isLogin = 'False';
-				alert("你的登录已过期,请重新登录");
-				jumpToLogin();
-			}
-		},
-		error:function(xhr,type,errorThrown){
-			console.log(errorThrown);
-		}
-	});
-	// user
-	var userinfo;
-	$.ajax({
-		url:'/api/user/',
-		type:'POST',//HTTP请求类型
-		timeout:5000,//超时时间设置为10秒；
-		dataType: "json",
-		async: false,
-		data: {
-			'token': getToken(),
-			'what' : 'userinfo',
-		},// data是必须的,可以空,不能没有
-		success:function(ret){
-			if (ret.code == '200'){
-				userinfo = ret;
-			}
-			else if(ret.code=='403'){
-				isLogin = 'False';
-				alert("你的登录已过期,请重新登录");
-				jumpToLogin();
-			}
-		},
-		error:function(xhr,type,errorThrown){
-			console.log(errorThrown);
-		}
-	});
-	document.getElementById("userType").innerHTML = userinfo.usertype;
-	document.getElementById("userLevel").innerHTML = "LV"+parseInt(userinfo.level/100);
-	document.getElementById("userCenter_nickname").innerHTML = userinfo.nickname;
-	document.getElementById("userCenter_signature").value = userinfo.signature;
-	var gender = userinfo.gender;
-	var boxObj = document.getElementById('otherInfo');
-	if (gender == 1){
-		var genderImg = document.createElement('img');
-		genderImg.setAttribute('src','/static/img/userCenter_boy.png');
-		genderImg.setAttribute('class','userCenter_up_icon');
-		genderImg.setAttribute("title",'糙汉子')
-		boxObj.appendChild(genderImg);
-	}else if (gender == 2){
-		var genderImg = document.createElement('img');
-		genderImg.setAttribute('src','/static/img/userCenter_girl.png');
-		genderImg.setAttribute('class','userCenter_up_icon');
-		genderImg.setAttribute("title",'萌妹子')
-		boxObj.appendChild(genderImg);
-	}
-	if (userinfo.email){
-		var email = document.getElementById("userCenter_up_email");
-		email.setAttribute('src', "/static/img/email_on.png");
-	}
-	if (userinfo.phone){
-		var phone = document.getElementById("userCenter_up_phone");
-		phone.setAttribute('src', "/static/img/phone_on.png");
-	}
-	$.ajax({
-		url:'/api/user/',
-		type:'POST',//HTTP请求类型
-		timeout:5000,//超时时间设置为10秒；
-		dataType: "json",
-		async: false,
-		data: {
-			'token': getToken(),
-			'what' : 'jitang',
-		},// data是必须的,可以空,不能没有
-		success:function(ret){
-			if (ret.code == '200'){
-				if (ret.data){
-					document.getElementById("userCenter_jitang_p").innerHTML = ret.data;
-				}
-			}
-			else if(ret.code=='403'){
-				isLogin = 'False';
-				alert("你的登录已过期,请重新登录");
-				jumpToLogin();
-			}
-		},
-		error:function(xhr,type,errorThrown){
-			console.log(errorThrown);
-		}
-	});
-	
-	page = getPage();
-	// 按页码填充数据
-	if (page == 0){
-		// 个人主页
-		var thisPage = document.getElementById("userCenter_myinfo");
-		thisPage.style.display = 'flex';
-		
-		document.getElementById("userCenter_level_p").innerHTML = "LV"+parseInt(userinfo.level/100);
-		var exp = userinfo.level%100;
-		document.getElementById("userCenter_exp").innerHTML = exp + "/100";
-		document.getElementById("userCenter_level_line").style.width = exp + "%";
-		var boy = document.getElementById("userCenter_boy");
-		var girl = document.getElementById("userCenter_girl");
-		boy.checked = false;
-		girl.checked = false;
-		if (gender == 1){
-			boy.checked = true;
-		}else if (gender == 2){
-			girl.checked = true;
-		}
-		$('#userCenter_birthday').val(userinfo.birthday);
-		
-		var mythought;
-		$.ajax({
-			url:'/api/user/',
-			type:'POST',//HTTP请求类型
-			timeout:5000,//超时时间设置为10秒；
-			dataType: "json",
-			async: false,
-			data: {
-				'token': getToken(),
-				'what' : 'thought',
-				'where' : 'mostView',
-			},// data是必须的,可以空,不能没有
-			success:function(ret){
-				if (ret.code == '200'){
-					mythought = ret;
-				}
-				else if(ret.code=='403'){
-					isLogin = 'False';
-					alert("你的登录已过期,请重新登录");
-					jumpToLogin();
-				}
-			},
-			error:function(xhr,type,errorThrown){
-				console.log(errorThrown);
-			}
-		});
-		var page1 = document.getElementById("userCenter_thought_mostview");
-		// 先删除对应个数的元素
-		var rows = document.getElementsByClassName("userCenter_thoughtRow");
-		console.log(mythought);
-		for (var i=0;i<mythought.num;i++){
-			rows[i].parentNode.removeChild(rows[i]);
-		}
-		// 在添加对应个数的元素
-		for (var i=0;i<mythought.num;i++){
-			var newRow = createThoughtRow(mythought.data[i]);
-			page1.appendChild(newRow);
-		}
-	}else if (page == 1){
-		// 我的想法页面
-		var thisPage = document.getElementById("userCenter_mythought");
-		thisPage.style.display = 'flex';
-	}
-}
-
 //上传头像
 function changeAvatar(){
 	var input = document.getElementById("avatar_input");
@@ -461,11 +287,314 @@ function showMostView(w){
 	}
 }
 
-function createThoughtRow(thought){
+// 填入用户现在的信息
+function setUserData(page){
+	// 头像
+	var avatar = document.getElementById("userCenter_avatar");
+	$.ajax({
+		url:'/api/user/',
+		type:'POST',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		dataType: "json",
+		data: {
+			'token': getToken(),
+			'what' : 'avatar',
+		},// data是必须的,可以空,不能没有
+		success:function(ret){
+			if (ret.code == '200' && ret.data != 'https://cdn.wzz.ink/avatar/defaultAvatar.png'){
+				avatar.setAttribute('src', ret.data);
+			}
+			else if(ret.code=='403'){
+				isLogin = 'False';
+				alert("你的登录已过期,请重新登录");
+				jumpToLogin();
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			console.log(errorThrown);
+		}
+	});
+	// user
+	var userinfo;
+	$.ajax({
+		url:'/api/user/',
+		type:'POST',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		dataType: "json",
+		async: false,
+		data: {
+			'token': getToken(),
+			'what' : 'userinfo',
+		},// data是必须的,可以空,不能没有
+		success:function(ret){
+			if (ret.code == '200'){
+				userinfo = ret;
+			}
+			else if(ret.code=='403'){
+				isLogin = 'False';
+				alert("你的登录已过期,请重新登录");
+				jumpToLogin();
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			console.log(errorThrown);
+		}
+	});
+	document.getElementById("userType").innerHTML = userinfo.usertype;
+	document.getElementById("userLevel").innerHTML = "LV"+parseInt(userinfo.level/100);
+	document.getElementById("userCenter_nickname").innerHTML = userinfo.nickname;
+	document.getElementById("userCenter_signature").value = userinfo.signature;
+	var gender = userinfo.gender;
+	var boxObj = document.getElementById('otherInfo');
+	if (gender == 1){
+		var genderImg = document.createElement('img');
+		genderImg.setAttribute('src','/static/img/userCenter_boy.png');
+		genderImg.setAttribute('class','userCenter_up_icon');
+		genderImg.setAttribute("title",'糙汉子')
+		boxObj.appendChild(genderImg);
+	}else if (gender == 2){
+		var genderImg = document.createElement('img');
+		genderImg.setAttribute('src','/static/img/userCenter_girl.png');
+		genderImg.setAttribute('class','userCenter_up_icon');
+		genderImg.setAttribute("title",'萌妹子')
+		boxObj.appendChild(genderImg);
+	}
+	if (userinfo.email){
+		var email = document.getElementById("userCenter_up_email");
+		email.setAttribute('src', "/static/img/email_on.png");
+	}
+	if (userinfo.phone){
+		var phone = document.getElementById("userCenter_up_phone");
+		phone.setAttribute('src', "/static/img/phone_on.png");
+	}
+	$.ajax({
+		url:'/api/user/',
+		type:'POST',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		dataType: "json",
+		async: false,
+		data: {
+			'token': getToken(),
+			'what' : 'jitang',
+		},// data是必须的,可以空,不能没有
+		success:function(ret){
+			if (ret.code == '200'){
+				if (ret.data){
+					document.getElementById("userCenter_jitang_p").innerHTML = ret.data;
+				}
+			}
+			else if(ret.code=='403'){
+				isLogin = 'False';
+				alert("你的登录已过期,请重新登录");
+				jumpToLogin();
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			console.log(errorThrown);
+		}
+	});
+	
+	page = getPage();
+	// 按页码填充数据
+	if (page == 0){
+		// 个人主页
+		var thisPage = document.getElementById("userCenter_myinfo");
+		thisPage.style.display = 'flex';
+		
+		document.getElementById("userCenter_level_p").innerHTML = "LV"+parseInt(userinfo.level/100);
+		var exp = userinfo.level%100;
+		document.getElementById("userCenter_exp").innerHTML = exp + "/100";
+		document.getElementById("userCenter_level_line").style.width = exp + "%";
+		var boy = document.getElementById("userCenter_boy");
+		var girl = document.getElementById("userCenter_girl");
+		boy.checked = false;
+		girl.checked = false;
+		if (gender == 1){
+			boy.checked = true;
+		}else if (gender == 2){
+			girl.checked = true;
+		}
+		$('#userCenter_birthday').val(userinfo.birthday);
+		
+		var mythought;
+		$.ajax({
+			url:'/api/user/',
+			type:'POST',//HTTP请求类型
+			timeout:5000,//超时时间设置为10秒；
+			dataType: "json",
+			async: false,
+			data: {
+				'token': getToken(),
+				'what' : 'thought',
+				'where' : 'mostView',
+			},// data是必须的,可以空,不能没有
+			success:function(ret){
+				if (ret.code == '200'){
+					mythought = ret;
+				}
+				else if(ret.code=='403'){
+					isLogin = 'False';
+					alert("你的登录已过期,请重新登录");
+					jumpToLogin();
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				console.log(errorThrown);
+			}
+		});
+		var page1 = document.getElementById("userCenter_thought_mostview");
+		// 先删除对应个数的元素
+		for (var i=0;i<mythought.num;i++){
+			var rows = page1.children;
+			rows[0].parentNode.removeChild(rows[0]);
+		}
+		// 在添加对应个数的元素
+		for (var i=0;i<mythought.num;i++){
+			var newRow = createThoughtRow(mythought.data[i], i+1);
+			page1.appendChild(newRow);
+		}
+		
+		$.ajax({
+			url:'/api/user/',
+			type:'POST',//HTTP请求类型
+			timeout:5000,//超时时间设置为10秒；
+			dataType: "json",
+			async: false,
+			data: {
+				'token': getToken(),
+				'what' : 'thought',
+				'where' : 'newest',
+			},// data是必须的,可以空,不能没有
+			success:function(ret){
+				if (ret.code == '200'){
+					mythought = ret;
+				}
+				else if(ret.code=='403'){
+					isLogin = 'False';
+					alert("你的登录已过期,请重新登录");
+					jumpToLogin();
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				console.log(errorThrown);
+			}
+		});
+		var page2 = document.getElementById("userCenter_thought_newest");
+		// 先删除对应个数的元素
+		for (var i=0;i<mythought.num;i++){
+			var rows = page2.children;
+			rows[0].parentNode.removeChild(rows[0]);
+		}
+		// 在添加对应个数的元素
+		for (var i=0;i<mythought.num;i++){
+			var newRow = createThoughtRow(mythought.data[i], i+1);
+			page2.appendChild(newRow);
+		}
+	}else if (page == 1){
+		// 我的想法页面
+		var thisPage = document.getElementById("userCenter_mythought");
+		thisPage.style.display = 'flex';
+	}
+}
+
+
+function createThoughtRow(thought, i){
+	// 用js拼接一个预览的小窗口出来,再输出
+	//console.log(thought);
+	
 	var row = document.createElement('div');
 	row.setAttribute('class', 'userCenter_thoughtRow');
-	console.log(thought);
 	
+	// 四种心情的颜色 happy #FFA8DF
+	var colorWithMood = {'happy': '#f88bff', 'angry': '#ffc28b', 'disgust': '#a1ff8b', 'sad': '#7182ff'};
+	
+	var num = document.createElement('div');
+	num.setAttribute('class', 'thoughtRow_num');
+	var moodColor = colorWithMood[thought.type_raw];
+	num.style.background = moodColor;
+	var num_p = document.createElement('p');
+	num_p.setAttribute('class', 'thoughtRow_num_p');
+	num_p.innerHTML = i;
+	num.appendChild(num_p);
+	row.appendChild(num);
+	
+	var title = document.createElement('div');
+	title.setAttribute('class', 'thoughtRow_title');
+	var title_p1 = document.createElement('p');
+	title_p1.setAttribute('class','thoughtRow_title_p');
+	title_p1.innerHTML = thought.title;
+	title.appendChild(title_p1);
+	var title_div = document.createElement('div');
+	title_div.style.width = '100%';
+	title_div.style.background = 'rgba(0,0,0,0.25)';
+	title_div.style.height = '2%';
+	title.appendChild(title_div);
+	var title_date = document.createElement("div");
+	title_date.setAttribute('class', 'thoughtRow_time');
+	title_date.innerHTML = thought.create_time.split('T')[0];
+	title.appendChild(title_date);
+	row.appendChild(title);
+	
+	var div = document.createElement('div');
+	div.style.background = 'rgba(0,0,0,0.25)';
+	div.style.height = '70%';
+	div.style.width = '1px';
+	row.appendChild(div);
+	
+	var text = document.createElement('div');
+	text.setAttribute('class', 'thoughtRow_text');
+	var text_cont = document.createElement('div');
+	text_cont.setAttribute('class', 'thoughtRow_text_container');
+	text.appendChild(text_cont);
+	var text_p = document.createElement('p');
+	text_p.setAttribute('class', 'thoughtRow_text_p');
+	$.ajax({
+		url:'/api/user/',
+		type:'POST',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		dataType: "json",
+		async: false,
+		data: {
+			'id' : thought.rich_text,
+			'token' : getToken(),
+			'what' : 'thoughtContent',
+		},// data是必须的,可以空,不能没有
+		success:function(ret){
+			text_p.innerHTML = ret.text;
+		},
+		error:function(xhr,type,errorThrown){
+			console.log(errorThrown);
+		}
+	})
+	text_cont.appendChild(text_p);
+	row.appendChild(text);
+	
+	row.appendChild(div);
+	
+	var control = document.createElement('div');
+	control.setAttribute('class', 'thoughtRow_control');
+	var changeBtn = document.createElement('input');
+	var deleteBtn = document.createElement('input');
+	changeBtn.setAttribute('class', 'thoughtRow_btn1');
+	changeBtn.setAttribute('type', 'button');
+	changeBtn.setAttribute('value', '修改');
+	changeBtn.setAttribute('onclick', 'changeThought('+thought.id+','+thought.rich_text+')');
+	deleteBtn.setAttribute('class', 'thoughtRow_btn2');
+	deleteBtn.setAttribute('type', 'button');
+	deleteBtn.setAttribute('value', '删除');
+	deleteBtn.setAttribute('onclick', 'deleteThought('+thought.id+','+thought.rich_text+')');
+	
+	control.appendChild(changeBtn);
+	control.appendChild(deleteBtn);
+	row.appendChild(control);
 	
 	return row;
+}
+
+function deleteThought(tid, cid){
+	console.log("删除id"+tid);
+}
+
+function changeThought(tid, cid){
+	console.log("修改id"+tid);
 }

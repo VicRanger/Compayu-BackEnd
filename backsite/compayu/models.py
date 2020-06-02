@@ -11,7 +11,9 @@ from user.models import User
 Designed by Fei 
 '''
 
+
 class Editor(models.Model):
+    objects = models.manager
     content = WangRichTextField()
     text = models.TextField(blank=True, null=True)
 
