@@ -173,7 +173,7 @@ def checkRegister(request):
         userinfo = models.UserInfo(user=user, registerinfo="10")
         userinfo.save()
         return render(request, 'register.html', {'type': 'email', 'suc': 'true', 'ret': '注册成功', 'user': user})
-    return HttpResponse("未知原因，注册失败")
+    return render(request, 'register.html', {'type': which, 'suc': 'False', 'ret': '注册失败'})
 
 
 def initEmail(request):
