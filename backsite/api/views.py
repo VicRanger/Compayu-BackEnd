@@ -11,6 +11,7 @@ from compayu.models import Thought, Editor
 from fei.serializers import ThoughtSerializer
 from user.models import User, UserInfo, Jitang, Avatar
 from rest_framework.response import Response
+from django.core.paginator import Paginator
 
 
 def setting(request):
@@ -162,11 +163,39 @@ def getuserinfo(request):
                     response['code'] = '200'
                     response['msg'] = '最新Thought'
                 elif where == 'all' or where == '':
-                    mythought = Thought.objects.filter(author_id=uid)
-                    response['data'] = mythought
+                    mythought = Thought.objects.filter(author_id=uid, isdelete=False)
+                    count = mythought.count()
+                    response['num'] = count
+                    response['data'] = ThoughtSerializer(mythought, many=True).data
                     response['code'] = '200'
                     response['msg'] = '所有Thought'
-
+                elif where == 'filter':
+                    myfilter = request.POST.get('filter', '')
+                    page = request.POST.get('page', '')
+                    # filter : time , view , search
+                    if myfilter == 'time':
+                        mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-create_time')
+                        paginator = Paginator(mythought, 10)
+                        if page == '':
+                            thispage = paginator.page(1)
+                        else:
+                            thispage = paginator.page(int(page))
+                        count = mythought.count()
+                        response['num'] = count
+                        response['data'] = ThoughtSerializer(thispage, many=True).data
+                        response['code'] = '200'
+                        response['msg'] = '最新Thought'
+                    elif myfilter == 'view':
+                        mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-views')
+                        count = mythought.count()
+                        response['num'] = count
+                        response['data'] = ThoughtSerializer(mythought, many=True).data
+                        response['code'] = '200'
+                        response['msg'] = '最多浏览Thought'
+                    elif myfilter == 'search':
+                        search = request.POST.get('search')
+                        response['code'] = '200'
+                        response['msg'] = '最多浏览Thought'
     return JsonResponse(response)
 
 

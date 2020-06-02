@@ -490,10 +490,14 @@ function setUserData(page){
 			var newRow = createThoughtRow(mythought.data[i], i+1);
 			page2.appendChild(newRow);
 		}
-	}else if (page == 1){
+	}
+	else if (page == 1){
 		// 我的想法页面
 		var thisPage = document.getElementById("userCenter_mythought");
 		thisPage.style.display = 'flex';
+		changeFilter('time' ,1);
+	}else if (page == 2){
+		
 	}
 }
 
@@ -516,6 +520,17 @@ function createThoughtRow(thought, i){
 	num_p.setAttribute('class', 'thoughtRow_num_p');
 	num_p.innerHTML = i;
 	num.appendChild(num_p);
+	var num_view = document.createElement('div');
+	num_view.setAttribute('class', 'thoughtRow_views');
+	var num_view_img = document.createElement('img');
+	num_view_img.setAttribute('class','thoughtRow_viewIcon');
+	num_view_img.setAttribute('src','/static/img/userCenter_viewsIcon.png');
+	num_view.appendChild(num_view_img);
+	var num_view_p = document.createElement('p');
+	num_view_p.setAttribute('class', 'thoughtRow_views_p');
+	num_view_p.innerHTML = thought.views;
+	num_view.appendChild(num_view_p);
+	num.appendChild(num_view);
 	row.appendChild(num);
 	
 	var title = document.createElement('div');
@@ -597,4 +612,66 @@ function deleteThought(tid, cid){
 
 function changeThought(tid, cid){
 	console.log("修改id"+tid);
+}
+
+// 根据过滤条件显示想法
+function fiilData_thought(filter, page){
+	var mythought;
+	setCookie('page', page);
+	$.ajax({
+		url:'/api/user/',
+		type:'POST',//HTTP请求类型
+		timeout:5000,//超时时间设置为10秒；
+		dataType: "json",
+		async: false,
+		data: {
+			'token': getToken(),
+			'what' : 'thought',
+			'where' : 'filter',
+			'filter' : filter,
+			'page' : page,
+		},// data是必须的,可以空,不能没有
+		success:function(ret){
+			if (ret.code == '200'){
+				mythought = ret;
+			}
+			else if(ret.code=='403'){
+				isLogin = 'False';
+				alert("你的登录已过期,请重新登录");
+				jumpToLogin();
+			}
+		},
+		error:function(xhr,type,errorThrown){
+			console.log(errorThrown);
+		}
+	});
+	
+	console.log(mythought.data);
+}
+
+function changeFilter(filter, page){
+	var btnlist = document.getElementsByClassName('mythought_filterBtn');
+	var subline = document.getElementById("mythought_chooceFilter_subline");
+	var w = 0;
+	if (filter == 'time'){ w = 0;}
+	else if (filter == 'view'){ w = 1;}
+	else if (filter == 'search'){ w = 2;}
+	for (var i=0;i<btnlist.length;i++){
+		if (i==w){
+			btnlist[i].style.color = '#4169E1';
+		}else{
+			btnlist[i].style.color = '#111111';
+		}
+	}
+	subline.style.marginLeft = 130 * w + 'px';
+	var p1 = document.getElementById("mythoughtList");
+	var p2 = document.getElementById("mythoughtSearchList");
+	if (w==3){
+		p2.style.display = 'flex';
+		p1.style.display = 'none';
+	}else{
+		p1.style.display = 'flex';
+		p2.style.display = 'none';
+	}
+	fiilData_thought(filter,page);
 }
