@@ -103,6 +103,8 @@ class Thought(models.Model):
         Media, related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
     rich_text = models.ForeignKey(
         Editor, related_name='thought_content', on_delete=models.SET_NULL, blank=True, null=True)
+    # 逻辑删除
+    isdelete = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'Thought'

@@ -142,7 +142,7 @@ def getuserinfo(request):
             else:
                 where = request.POST.get('where', '')
                 if where == 'mostView':
-                    mythought = Thought.objects.filter(author_id=uid).order_by('-views')
+                    mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-views')
                     # 只取前两个
                     count = mythought.count()
                     if count >= 2:
@@ -152,7 +152,7 @@ def getuserinfo(request):
                     response['code'] = '200'
                     response['msg'] = '最多人阅读Thought'
                 elif where == 'newest':
-                    mythought = Thought.objects.filter(author_id=uid).order_by('-create_time')
+                    mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-create_time')
                     # 只取前两个
                     count = mythought.count()
                     if count >= 2:
