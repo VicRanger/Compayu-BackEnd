@@ -495,7 +495,9 @@ function setUserData(page){
 		// 我的想法页面
 		var thisPage = document.getElementById("userCenter_mythought");
 		thisPage.style.display = 'flex';
-		changeFilter('time' ,1);
+		// 初始化第一页
+		setCookie('paeg', 1);
+		changeFilter('time');
 	}else if (page == 2){
 		
 	}
@@ -615,41 +617,61 @@ function changeThought(tid, cid){
 }
 
 // 根据过滤条件显示想法
-function fiilData_thought(filter, page){
+function fiilData_thought(filter){
 	var mythought;
-	setCookie('page', page);
-	$.ajax({
-		url:'/api/user/',
-		type:'POST',//HTTP请求类型
-		timeout:5000,//超时时间设置为10秒；
-		dataType: "json",
-		async: false,
-		data: {
-			'token': getToken(),
-			'what' : 'thought',
-			'where' : 'filter',
-			'filter' : filter,
-			'page' : page,
-		},// data是必须的,可以空,不能没有
-		success:function(ret){
-			if (ret.code == '200'){
-				mythought = ret;
+	setCookie('filter', filter);
+	page = getCookie('page');
+	if (filter != 'search'){
+		$.ajax({
+			url:'/api/user/',
+			type:'POST',//HTTP请求类型
+			timeout:5000,//超时时间设置为10秒；
+			dataType: "json",
+			async: false,
+			data: {
+				'token': getToken(),
+				'what' : 'thought',
+				'where' : 'filter',
+				'filter' : filter,
+				'page' : page,
+			},// data是必须的,可以空,不能没有
+			success:function(ret){
+				if (ret.code == '200'){
+					mythought = ret;
+				}
+				else if(ret.code=='403'){
+					isLogin = 'False';
+					alert("你的登录已过期,请重新登录");
+					jumpToLogin();
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				console.log(errorThrown);
 			}
-			else if(ret.code=='403'){
-				isLogin = 'False';
-				alert("你的登录已过期,请重新登录");
-				jumpToLogin();
-			}
-		},
-		error:function(xhr,type,errorThrown){
-			console.log(errorThrown);
+		});
+		
+		var container = document.getElementById("mythoughtList");
+		// 总页数
+		var pagenum = parseInt(mythought.num/10) + 1;
+		setPageBtn(pagenum);
+		// 先清空表单
+		var childs = container.childNodes;
+		for(var i = childs .length - 1; i >= 0; i--) {
+		  container.removeChild(childs[i]);
 		}
-	});
-	
-	console.log(mythought.data);
+
+		// 在添加对应个数的元素
+		for (var i=0;i<mythought.data.length;i++){
+			var newRow = createThoughtRow(mythought.data[i], i+1);
+			container.appendChild(newRow);
+		}
+	}
+	else{
+		
+	}
 }
 
-function changeFilter(filter, page){
+function changeFilter(filter){
 	var btnlist = document.getElementsByClassName('mythought_filterBtn');
 	var subline = document.getElementById("mythought_chooceFilter_subline");
 	var w = 0;
@@ -666,12 +688,44 @@ function changeFilter(filter, page){
 	subline.style.marginLeft = 130 * w + 'px';
 	var p1 = document.getElementById("mythoughtList");
 	var p2 = document.getElementById("mythoughtSearchList");
-	if (w==3){
+	if (w==2){
 		p2.style.display = 'flex';
 		p1.style.display = 'none';
 	}else{
 		p1.style.display = 'flex';
 		p2.style.display = 'none';
 	}
-	fiilData_thought(filter,page);
+	fiilData_thought(filter);
+}
+
+function thoughtChangePage(p){
+	setCookie('page', p);
+	fiilData_thought(getCookie('filter'));
+}
+
+function setPageBtn(pagenum){
+	var cont = document.getElementById("mythought_pageContainer");
+	var page = getCookie('page');
+	// 先清空再生成
+	var childs = cont.childNodes;
+	for(var i = childs .length - 1; i >= 0; i--) {
+	  cont.removeChild(childs[i]);
+	}
+	for (var i=0;i<pagenum;i++){
+		var child = createPageBtn(i+1);
+		if (i+1 == page){
+			child.setAttribute('class', 'mythought_page_active');
+		}
+		cont.appendChild(child);
+	}
+}
+
+function createPageBtn(page){
+	var div = document.createElement('div');
+	div.setAttribute('class', 'mythought_page');
+	var p = document.createElement('p');
+	p.innerHTML = page;
+	div.appendChild(p);
+	div.setAttribute('onclick','thoughtChangePage('+page+')');
+	return div;
 }
