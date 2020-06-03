@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
@@ -5,7 +6,8 @@ import random
 
 from backsite.settings import LOGIN_TIME
 from backsite.token import getUserByToken
-from compayu.models import Thought
+from compayu.models import Thought, Editor
+from fei.serializers import ThoughtSerializer
 from user.models import User, UserInfo, Jitang, Avatar
 
 
@@ -57,6 +59,24 @@ def getuserinfo(request):
                 response['data'] = str(user.nickname)
                 response['code'] = '200'
             return JsonResponse(response)
+        elif what == 'thoughtContent':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                tid = request.POST.get('id', '')
+                tcontent = Editor.objects.filter(id=tid)
+                if tcontent.count() > 0:
+                    response['msg'] = '想法编辑器实例'
+                    response['content'] = tcontent[0].content
+                    response['text'] = tcontent[0].text
+                    response['code'] = '200'
+                else:
+                    response['msg'] = '未查询到数据'
+                    response['code'] = '404'
         elif what == 'userinfo':
             if uid == 0:
                 response['msg'] = '未查询到数据'
@@ -84,6 +104,7 @@ def getuserinfo(request):
             rand = random.randint(1, jitang.count())
             response['data'] = jitang[rand-1].jitang
             response['code'] = '200'
+            response['msg'] = '获得心灵鸡汤'
         elif what == 'setuser':
             if uid == 0:
                 response['msg'] = '未查询到数据'
@@ -120,31 +141,103 @@ def getuserinfo(request):
             else:
                 where = request.POST.get('where', '')
                 if where == 'mostView':
-                    mythought = Thought.objects.filter(id=uid).order_by('-views')
+                    mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-views')
                     # 只取前两个
                     count = mythought.count()
                     if count >= 2:
                         count = 2
                     response['num'] = count
-                    response['data'] = mythought
+                    response['data'] = ThoughtSerializer(mythought, many=True).data
                     response['code'] = '200'
                     response['msg'] = '最多人阅读Thought'
                 elif where == 'newest':
-                    mythought = Thought.objects.filter(id=uid).order_by('-create_time')
+                    mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-create_time')
                     # 只取前两个
                     count = mythought.count()
                     if count >= 2:
                         count = 2
                     response['num'] = count
-                    response['data'] = mythought
+                    response['data'] = ThoughtSerializer(mythought, many=True).data
                     response['code'] = '200'
                     response['msg'] = '最新Thought'
                 elif where == 'all' or where == '':
-                    mythought = Thought.objects.filter(id=uid)
-                    response['data'] = mythought
+                    mythought = Thought.objects.filter(author_id=uid, isdelete=False)
+                    count = mythought.count()
+                    response['num'] = count
+                    response['data'] = ThoughtSerializer(mythought, many=True).data
                     response['code'] = '200'
                     response['msg'] = '所有Thought'
-
+                elif where == 'filter':
+                    myfilter = request.POST.get('filter', '')
+                    page = request.POST.get('page', '')
+                    # filter : time , view , search
+                    if myfilter == 'time':
+                        mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-create_time')
+                        paginator = Paginator(mythought, 10)
+                        if page == '':
+                            thispage = paginator.page(1)
+                        else:
+                            thispage = paginator.page(int(page))
+                        count = mythought.count()
+                        response['num'] = count
+                        response['data'] = ThoughtSerializer(thispage, many=True).data
+                        response['code'] = '200'
+                        response['msg'] = '最新Thought'
+                    elif myfilter == 'view':
+                        mythought = Thought.objects.filter(author_id=uid, isdelete=False).order_by('-views')
+                        paginator = Paginator(mythought, 10)
+                        if page == '':
+                            thispage = paginator.page(1)
+                        else:
+                            thispage = paginator.page(int(page))
+                        count = mythought.count()
+                        response['num'] = count
+                        response['data'] = ThoughtSerializer(thispage, many=True).data
+                        response['code'] = '200'
+                        response['msg'] = '最多浏览Thought'
+                    elif myfilter == 'search':
+                        search = request.POST.get('search', '')
+                        isDate = False
+                        for i in search:
+                            if i == '-':
+                                isDate = True
+                        if isDate:
+                            date = search.split('-')
+                            mythought = Thought.objects.filter(author_id=uid, isdelete=False, create_time__year=date[0], create_time__month=date[1], create_time__day=date[2]).order_by('-create_time')
+                            if mythought.count() == 0:
+                                # 减少要求
+                                mythought = Thought.objects.filter(author_id=uid, isdelete=False,
+                                                                        create_time__month=date[1],
+                                                                        create_time__day=date[2]).order_by('-create_time')
+                        else:
+                            mythought = Thought.objects.filter(author_id=uid, isdelete=False, title=search).order_by('-create_time')
+                        paginator = Paginator(mythought, 10)
+                        if page == '':
+                            thispage = paginator.page(1)
+                        else:
+                            thispage = paginator.page(int(page))
+                        count = mythought.count()
+                        response['num'] = count
+                        response['data'] = ThoughtSerializer(thispage, many=True).data
+                        response['code'] = '200'
+                        response['msg'] = '搜索结果Thought'
+        elif what == 'thoughtcount':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                mythought = Thought.objects.filter(author_id = uid)
+                tnum = mythought.count()
+                response['tnum'] = tnum
+                tview = 0
+                for i in range(0,tnum):
+                    tview = tview + int(mythought[i].views)
+                response['vnum'] = tview
+                response['msg'] = '想法量计数'
+                response['code'] = '200'
     return JsonResponse(response)
 
 
