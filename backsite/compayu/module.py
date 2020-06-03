@@ -2,6 +2,8 @@ import paddlehub as hub
 import numpy as np
 import logging
 import time
+import subprocess
+from subprocess import Popen, TimeoutExpired, PIPE
 import time
 import threading
 import requests
