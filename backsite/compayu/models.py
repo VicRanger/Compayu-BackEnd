@@ -12,6 +12,7 @@ Designed by Fei
 
 
 class Editor(models.Model):
+    objects = models.manager
     content = WangRichTextField()
     text = models.TextField(blank=True, null=True)
 
@@ -103,8 +104,12 @@ class Thought(models.Model):
     views = models.IntegerField(default=0)
     author = models.ForeignKey(
         User, related_name='thought_set', blank=True, null=True, on_delete=models.SET_NULL)
+    # picture = models.ForeignKey(
+    #     Media, related_name='thought_media', on_delete=models.SET_NULL, blank=True, null=True)
     rich_text = models.OneToOneField(
-        Editor, related_name='thought', on_delete=models.SET_NULL, blank=True, null=True)
+        Editor, related_name='thought', on_delete=models.CASCADE, blank=True, null=True)
+    # 逻辑删除
+    isdelete = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'Thought'
@@ -112,7 +117,7 @@ class Thought(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.type_raw + ' - ' + self.text[:10] + ' : ' + str(self.modified_time)
+        return self.type_raw + ' - ' + self.rich_text.text[:10] + ' : ' + str(self.modified_time)
 
     def json(self):
         ret = {}

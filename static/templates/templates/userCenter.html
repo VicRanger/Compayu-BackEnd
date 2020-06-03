@@ -84,7 +84,7 @@
 		<!--个人主页，包括一些个人的信息等等-->
 		<div id="userCenter_myinfo">
 			<div id="userCenter_myinfo_level">
-				<p class="userCenter_title"> 个人经验 </p>
+				<p class="userCenter_title"> 用户数据 </p>
 				<div id="userCenter_level">
 					<p class="userCenter_subtitle" style="color: #2244CC;">我的经验：</p>
 					<p id="userCenter_level_p">LV1</p>
@@ -148,7 +148,45 @@
 		</div>
 		<!--想法管理页面-->
 		<div id="userCenter_mythought">
-			
+			<div id="mythought_title">
+				<p class="userCenter_title" style="width: 15%;">我的想法</p>
+				<div id="mythought_count">
+					<p class="mythought_countp">总浏览量：0000</p>
+					<p class="mythought_countp">发送想法数：0000</p>
+				</div>
+				<div id="mythought_searchContainer">
+					<input id="userCenter_searchThought" type="text" placeholder="标题&emsp;/&emsp;日期"/>
+					<div onclick="searchThought()" id="userCenter_searchThought_btn">
+						<img id="mythought_searchImg" src="{% static 'img/userCenter_search.png' %}"/>
+					</div>
+				</div>
+			</div>
+			<div id="mythought_chooceFilterContainer">
+				<div id="mythought_chooceFilter">
+					<p class="mythought_filterBtn" onclick="changeFilter('time')">按时间顺序</p>
+					<p class="mythought_filterBtn" onclick="changeFilter('view')">按浏览量顺序</p>
+					<p class="mythought_filterBtn" onclick="changeFilter('search')">搜索结果</p>
+				</div>
+				<div id="mythought_chooceFilter_sublineContainer">
+					<div id="mythought_chooceFilter_subline"></div>
+				</div>
+			</div>
+			<div id="mythougth_content">
+				<div id="mythoughtList">
+					
+				</div>
+				<div id="mythoughtSearchList">
+					<div id="mythought_searchNum">
+						<p id="mythought_searchNum_p">共搜索到&emsp;0&emsp;个结果</p>
+					</div>
+					<div id="mythought_searchResult">
+						
+					</div>
+				</div>
+				<div id="mythought_pageContainer">
+
+				</div>
+			</div>
 		</div>
 	</div>
 	<div id="userCenter_jitang">

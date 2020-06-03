@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>-Compayu- | 情绪分享类网站</title>
+</head>
+<body onload="pageInit()">
+	<!--设置FAVICON-->
+	<link rel="icon" href="{% static 'img/favicon.ico'%}">
+	<!--样式表-->
+	<link rel="stylesheet" type="text/css" href="{%static 'css/registerPage.css' %}"/>
+	
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+	{% include 'part_topNav.html' %}
+	
+	<div id="register_logo">
+		<div id="register_logo_container">
+			<img src="{% static 'img/Icon.png' %}" id="register_logo_img">
+			<p id="register_logo_p">『空游』</p>
+		</div>
+	</div>
+	<div id="register_resultContainer">
+		<div id="register_result">
+			<div id="register_result_up">
+				<img src="{% static 'img/register_suc.png' %}" id="register_up_img">
+				<p id="register_up_p">-注册成功-</p>
+				<p id="register_up_p2">欢迎加入『空游』</p>
+			</div>
+			<div style="width: 80%;height: 2px;border-radius: 1px;background: rgba(0,0,0,0.85);margin-top: 5px;margin-bottom: 5px;"></div>
+			<div id="register_lead">
+				<p>您现在可以&emsp;</p>
+				<p onclick="jumpToIndex()" class="fontLink">开始浏览</p>
+				<p>&emsp;或&emsp;</p>
+				<p onclick="jumpToUsercenter()" class="fontLink">访问个人中心</p>
+			</div>
+			<div id="register_acInfo">
+				<div class="infoRow">
+					<p class="infoRow_label">注册方式：</p>
+					<input disabled="disabled" value="{{user.signup_type|safe}}" id="register_type" class="infoRow_info" />
+				</div>
+				<div class="infoRow">
+					<p class="infoRow_label">&emsp;账号&emsp;：</p>
+					<input disabled="disabled" value="{{user.email|safe}}" id="register_ac" class="infoRow_info" />
+				</div>
+				<div class="infoRow">
+					<p class="infoRow_label">&emsp;密码&emsp;：</p>
+					<input type="password" value="{{user.password|safe}}" disabled="disabled" id="register_pw" class="infoRow_info" />
+					<div id="registerShowPw" onclick="register_showPW()">
+						<img src="{% static 'img/register_showPW.png' %}" style="height: 95%;"/>
+					</div>
+				</div>
+				<div class="infoRow">
+					<p class="infoRow_label">注册昵称：</p>
+					<input disabled="disabled" value="{{user.nickname|safe}}" id="register_nickname" class="infoRow_info" />
+				</div>
+			</div>
+			<div id="startBtnCont">
+				<div id="startBtn" onclick="jumpToIndex()">
+					<p id="startBtn_l">&#62;</p>
+					<p id="startBtn_m">开启空游之旅</p>
+					<p id="startBtn_r">&#60;</p>
+				</div>
+			</div>
+		</div>
+		
+		<div id="register_result_fail">
+			<div id="register_result_up">
+				<img src="{% static 'img/register_fail.png' %}" id="register_up_img">
+				<p id="register_up_p">-注册失败-</p>
+				<p id="register_up_p2">加入空游，还差一步</p>
+			</div>
+			<div style="width: 80%;height: 2px;border-radius: 1px;background: rgba(0,0,0,0.85);margin-top: 5px;margin-bottom: 5px;"></div>
+			<div id="registerfail_lead">
+				<p>您的注册失败了&emsp;</p>
+				<p>您可以&emsp;</p>
+				<p onclick="jumpToForgetPassword" class="fontLink">找回密码</p>
+				<p>&emsp;或&emsp;</p>
+				<p onclick="jumpBack()" class="fontLink">返回注册</p>
+			</div>
+		</div>	
+	</div>
+	
+	<div id="register_jitang">
+		<p style="color: ghostwhite;font-size: small;">在空游的世界里，自由永远是第一位的</p>
+	</div>
+
+	<p style="display: none;" id="script_token">{{token|safe}}</p>
+	<p style="display: none;" id="script_suc">{{suc|safe}}</p>
+	<script>
+		var newToken = document.getElementById("script_token").innerHTML;
+		var suc = document.getElementById("script_suc").innerHTML;
+	</script>
+	<script src="{% static 'js/registerPage.js' %}"></script>
+	<script src="{% static 'js/global.js' %}"></script>
+</body>
+</html>

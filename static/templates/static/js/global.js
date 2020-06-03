@@ -1,7 +1,7 @@
 
 // 返回门户页面
 function jumpToIndex(){
-	window.location.href = '/';
+	window.location.href = 'https://proj.wzz.ink/compayu/';
 }
 
 //关于我们
@@ -28,6 +28,11 @@ function jumpToForgetPassword(){
 	
 }
 
+//返回
+function jumpBack(){
+	window.history.go(-1);
+}
+
 //打开用户管理小列表
 function openUserList(){
 	window.open('/user/usercenter/?which=myinfo');
@@ -36,7 +41,6 @@ function openUserList(){
 //-----------顶部导航栏的处理代码也放在这里--------------
 function topNavInit(){
 	initShowNav();
-		
 	checkLogin();
 }
 
@@ -62,7 +66,6 @@ function topNavSlide(w){
 function checkLogin(){
 	// 检查islogin 的cookie判断是否登录
 	var isLogin = checkAcStatus();
-	
 	var p1 = document.getElementById("topNav_RegisterOrLogin");
 	var p2 = document.getElementById("userinfoContainer");
 	//console.log(isLogin);
@@ -179,6 +182,15 @@ function getCookie(name) {
 } 
 
 function getToken(){
+	var url = location.search; //获取url中"?"符后的字串
+	if (url.indexOf("?") != -1) { //判断是否有参数
+		var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+		strs = str.split("="); //用等号进行分隔 （因为知道只有一个参数 
+		if(strs[0]=='token' && strs[1].length>0){
+			console.log('token',strs[1])
+			localStorage.setItem('token', strs[1]);
+		}
+	}
     var data = localStorage.getItem('token');
 	if (data){
 		return data;
@@ -209,3 +221,59 @@ function checkAcStatus(){
 	});
 	return isLogin;
 }
+
+ // 重写alert
+window.alert = alert;
+function alert(data){
+	var win = document.createElement("div");
+	var info = document.createElement('div');
+	var img = document.createElement('img');
+	var	p = document.createElement("p");
+	var close = document.createElement('div');
+	var p2 = document.createElement('p');
+	// 控制样式
+	win.setAttribute('class', 'alert_win');
+	info.setAttribute('class','alert_up');
+	img.setAttribute('class', 'alert_img');
+	img.setAttribute('src', '/static/img/alert.png');
+	info.appendChild(img);
+	p.innerHTML = data;
+	p.setAttribute('class', 'alert_p');
+	info.appendChild(p);
+	win.appendChild(info);
+	
+	close.setAttribute('class','alert_close');
+	p2.innerHTML = '<点击关闭>';
+	p2.setAttribute('class', 'alert_p2');
+	close.appendChild(p2);
+	win.appendChild(close);
+	// 整体显示到页面内
+	document.getElementsByTagName("body")[0].appendChild(win);
+	setTimeout(function(){
+		win.style.opacity = 1;
+		// 延时自动关闭
+		setTimeout(function(){
+			win.style.opacity = 0;
+			setTimeout(function(){
+				win.parentNode.removeChild(win);
+			},1000);
+		},5000)
+	},200)
+	
+	setInterval(function(){
+		if (p2.style.opacity == 1){
+			p2.style.opacity = 0;
+		}else{
+			p2.style.opacity = 1;
+		}
+	},500)
+	
+	// 确定绑定点击事件删除标签
+	win.onclick = function() {
+		win.style.opacity = 0;
+		setTimeout(function(){
+			win.parentNode.removeChild(win);
+		},1000);
+	}
+};
+

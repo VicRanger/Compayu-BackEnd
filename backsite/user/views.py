@@ -123,21 +123,21 @@ def checkRegister(request):
         setcode = models.PhoneCode.objects.filter(phone=phone).order_by('-generatedate')
         # 如果找不到验证码则失败
         if setcode.count() == 0:
-            return render(request, 'register.html', {'type': 'phone', 'suc': 'false', 'ret': '未检测到验证码'})
+            return render(request, 'registerPage.html', {'type': 'phone', 'suc': 'false', 'ret': '未检测到验证码'})
         else:
             setcode = setcode[0]
             five_minus_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
             # 如果时间大于5分钟，则失败
             if setcode.generatedate < five_minus_ago:
-                return render(request, 'register.html', {'type': 'phone', 'suc': 'false', 'ret': '验证码已过期，请重新发送'})
+                return render(request, 'registerPage.html', {'type': 'phone', 'suc': 'false', 'ret': '验证码已过期，请重新发送'})
             # 如果不匹配则失败
             else:
                 if ucode != setcode.code:
-                    return render(request, 'register.html', {'type': 'phone', 'suc': 'false', 'ret': '验证码错误'})
+                    return render(request, 'registerPage.html', {'type': 'phone', 'suc': 'false', 'ret': '验证码错误'})
         # 检查号码是否被注册
         count = models.User.objects.filter(phonenum=phone).count()
         if count != 0:
-            return render(request, 'register.html', {'type': 'phone', 'suc': 'false', 'ret': '该号码已被注册'})
+            return render(request, 'registerPage.html', {'type': 'phone', 'suc': 'false', 'ret': '该号码已被注册'})
         # 保存到数据库，电话注册成功
         newuser = models.User(password=upwd, nickname=nickname, phonenum=phone, signup_type='phone', lastlogin=timezone.now(), signup_time=timezone.now())
         newuser.save()
@@ -145,7 +145,21 @@ def checkRegister(request):
         # 绑定的一对一用户信息表
         userinfo = models.UserInfo(user=user, registerinfo="01")
         userinfo.save()
-        return render(request, 'register.html', {'type': 'phone', 'suc': 'true', 'ret': '注册成功', 'user': user})
+        # 注册后自动登录
+        token = get_token(str(user.id), 3600)
+        expiration_time = datetime.now() + timedelta(hours=1, minutes=0, seconds=0)
+        if models.UserToken.objects.filter(user=user).count() != 0:
+            # 如果有，就更新token
+            changeToken = models.UserToken.objects.filter(user=user).first()
+            # 记得也要更新过期时间哦
+            changeToken.expiration_time = expiration_time
+            changeToken.token = token
+            changeToken.save()
+        else:
+            # 没有该用户的token，就创建一个
+            newToken = models.UserToken(user=user, token=token, expiration_time=expiration_time)
+            newToken.save()
+        return render(request, 'registerPage.html', {'type': 'phone', 'suc': 'true', 'ret': '注册成功', 'user': user, 'token': token})
     elif which == 'email':
         email = request.POST.get('email', '')
         ucode = request.POST.get('validcode', '')
@@ -157,14 +171,14 @@ def checkRegister(request):
         if setcode.count() > 0:
             setcode = setcode[0].code
         else:
-            return render(request, 'register.html', {'type': 'email', 'suc': 'false', 'ret': '未检测到验证码'})
+            return render(request, 'registerPage.html', {'type': 'email', 'suc': 'false', 'ret': '未检测到验证码'})
 
         if setcode != ucode:
-            return render(request, 'register.html', {'type': 'email', 'suc': 'false', 'ret': '验证码错误'})
+            return render(request, 'registerPage.html', {'type': 'email', 'suc': 'false', 'ret': '验证码错误'})
         # 检查该邮箱是否已经被注册
         count = models.User.objects.filter(email=email).count()
         if count != 0:
-            return render(request, 'register.html', {'type': 'email', 'suc': 'false', 'ret': '邮箱已被注册'})
+            return render(request, 'registerPage.html', {'type': 'email', 'suc': 'false', 'ret': '邮箱已被注册'})
         # 保存到数据库，邮箱注册成功
         newuser = models.User(password=upwd, nickname=nickname, email=email, signup_type='email', lastlogin=timezone.now(), signup_time=timezone.now())
         newuser.save()
@@ -172,8 +186,22 @@ def checkRegister(request):
         user = models.User.objects.filter(email=email)[0]
         userinfo = models.UserInfo(user=user, registerinfo="10")
         userinfo.save()
-        return render(request, 'register.html', {'type': 'email', 'suc': 'true', 'ret': '注册成功', 'user': user})
-    return HttpResponse("未知原因，注册失败")
+        # 注册后自动登录
+        token = get_token(str(user.id), 3600)
+        expiration_time = datetime.now() + timedelta(hours=1, minutes=0, seconds=0)
+        if models.UserToken.objects.filter(user=user).count() != 0:
+            # 如果有，就更新token
+            changeToken = models.UserToken.objects.filter(user=user).first()
+            # 记得也要更新过期时间哦
+            changeToken.expiration_time = expiration_time
+            changeToken.token = token
+            changeToken.save()
+        else:
+            # 没有该用户的token，就创建一个
+            newToken = models.UserToken(user=user, token=token, expiration_time=expiration_time)
+            newToken.save()
+        return render(request, 'registerPage.html', {'type': 'email', 'suc': 'true', 'ret': '注册成功', 'user': user, 'token': token})
+    return render(request, 'registerPage.html', {'type': which, 'suc': 'false', 'ret': '注册失败'})
 
 
 def initEmail(request):

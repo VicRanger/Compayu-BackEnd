@@ -24,7 +24,7 @@ class thought(APIView):
         elif 'type_raw' in query.keys():
             thought_list = []
             thoughts = Thought.objects.filter(
-                type_raw=query['type_raw']).order_by('-create_time')
+                type_raw=query['type_raw'],isdelete=False).order_by('-create_time')
             if thoughts.count() <= 0:
                 return Response({'data': []})
             tail = min(int(query.get(
