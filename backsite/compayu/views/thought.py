@@ -43,13 +43,12 @@ class thought(APIView):
     def post(self, request, format=None):
         query = request.data
         ret = {}
-        print(query)
         obj = Thought(type_raw=query['type_raw'])
         editor = Editor(content=query['content'],text=query['text'])
         editor.save()
         obj.rich_text = editor
-        if 'user_id' in query:
-            user = User.objects.filter(id=query['user_id'])
+        if 'user_id' in query and type(query['user_id'])==int:
+            user = User.objects.filter(id=int(query['user_id']))
             if user.count()==1:
                 obj.author = user[0]
         obj.save()
@@ -95,25 +94,29 @@ if USE_PREDICTION:
 class classifyText(APIView):
     def post(self, request, format=None):
         query = request.data
-        global q
+        global module
         if USE_PREDICTION:
             print(query)
-            module = q.get(True)
+            # module = q.get(True)
             ret = {}
             text = query.get("text", "")
             if len(text) > 0:
-                ret['data'] = module.predict([text])
-                ret['code'] = 1
-                ret['msg'] = '文本分类服务运行成功'
+                flag,data  = module.predict([text])
+                ret['data'] = data
+                if flag:
+                    ret['code'] = 1
+                    ret['msg'] = '文本分类服务运行成功'
+                else:
+                    ret['code'] = -1
+                    ret['msg'] = '远程文本分类服务正在启动中，请稍后'
             else:
                 ret['data'] = ""
-                ret['code'] = -1
+                ret['code'] = -2
                 ret['msg'] = '未获取到文本'
-            q.put(module)
             return Response(ret)
         else:
-            ret['code'] = -2
-            ret['msg'] = '管理员未启用该服务'
+            ret['code'] = -3
+            ret['msg'] = '管理员未启用文本分类服务'
             return Response(ret)
 
 

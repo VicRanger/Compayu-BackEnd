@@ -67,13 +67,12 @@ class Module:
                 return False
             return res.json()
         res = req(inputs)
-        while res == False:
-            time.sleep(2)
-            res = req(inputs)
+        if res == False:
+            return False,None
         predictions = res['results']
         for index, text in enumerate(inputs):
             print("%s\tpredict=%s" % (inputs[index], predictions[index]))
-        return predictions[0]
+        return True,predictions[0]
 
 
 class check_active_worker(threading.Thread):
