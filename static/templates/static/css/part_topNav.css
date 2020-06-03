@@ -160,3 +160,56 @@
 	font-size: 25px;
 	font-family: welcome2;
 }
+.alert_win{
+	transition: all 0.8s ease-out;
+	position : fixed;
+	left :0;
+	right : 0;
+	top: 10px;
+	opacity: 0;
+	width : 22rem;
+	margin : 0 auto;
+	background-color : #404040;
+	font-size : large;
+	text-align : center;
+	padding : 0.3rem 0.3rem 0 0.3rem;
+	height : 60px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 8px;
+	cursor: pointer;
+}
+.alert_up{
+	width: 80%;
+	height: 70%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.alert_img{
+	height: 50%;
+}
+.alert_p{
+	color: whitesmoke;
+	width: 65%;
+	text-align: center;
+	font-size: 0.8rem;
+}
+.alert_close{
+	width: 80%;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.alert_p2{
+	color: whitesmoke;
+	width: 75%;
+	text-align: center;
+	font-size: 0.5rem;
+	margin-bottom: 0.25rem;
+	opacity: 1;
+	transition: all 0.2s ease;
+}

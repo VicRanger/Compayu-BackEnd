@@ -581,6 +581,20 @@ body{
 	align-items: center;
 	overflow: hidden;
 }
+#mythought_count{
+	width: 35%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+.mythought_countp{
+	width: 40%;
+	text-align: center;
+	color: #4169E1;
+	font-size: small;
+}
 #mythought_searchContainer{
 	width: 50%;
 	height: 100%;

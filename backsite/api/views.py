@@ -224,6 +224,23 @@ def getuserinfo(request):
                         response['data'] = ThoughtSerializer(thispage, many=True).data
                         response['code'] = '200'
                         response['msg'] = '搜索结果Thought'
+        elif what == 'thoughtcount':
+            if uid == 0:
+                response['msg'] = '未查询到数据'
+                response['code'] = '404'
+            elif uid == -1:
+                response['msg'] = '您的token已过期，请重新登录'
+                response['code'] = '403'
+            else:
+                mythought = Thought.objects.filter(author_id = uid)
+                tnum = mythought.count()
+                response['tnum'] = tnum
+                tview = 0
+                for i in range(0,tnum):
+                    tview = tview + int(mythought[i].views)
+                response['vnum'] = tview
+                response['msg'] = '想法量计数'
+                response['code'] = '200'
     return JsonResponse(response)
 
 

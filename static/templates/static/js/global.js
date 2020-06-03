@@ -209,3 +209,56 @@ function checkAcStatus(){
 	});
 	return isLogin;
 }
+
+ // 重写alert
+window.alert = alert;
+function alert(data){
+	var win = document.createElement("div");
+	var info = document.createElement('div');
+	var img = document.createElement('img');
+	var	p = document.createElement("p");
+	var close = document.createElement('div');
+	var p2 = document.createElement('p');
+	// 控制样式
+	win.setAttribute('class', 'alert_win');
+	info.setAttribute('class','alert_up');
+	img.setAttribute('class', 'alert_img');
+	img.setAttribute('src', '/static/img/alert.png');
+	info.appendChild(img);
+	p.innerHTML = data;
+	p.setAttribute('class', 'alert_p');
+	info.appendChild(p);
+	win.appendChild(info);
+	
+	close.setAttribute('class','alert_close');
+	p2.innerHTML = '<点击关闭>';
+	p2.setAttribute('class', 'alert_p2');
+	close.appendChild(p2);
+	win.appendChild(close);
+	// 整体显示到页面内
+	document.getElementsByTagName("body")[0].appendChild(win);
+	setTimeout(function(){
+		win.style.opacity = 1;
+		// 延时自动关闭
+		setTimeout(function(){
+			win.style.opacity = 0;
+			setTimeout(function(){
+				win.parentNode.removeChild(win);
+			},1000);
+		},5000)
+	},200)
+	
+	setInterval(function(){
+		if (p2.style.opacity == 1){
+			p2.style.opacity = 0;
+		}else{
+			p2.style.opacity = 1;
+		}
+	},500)
+	
+	// 确定绑定点击事件删除标签
+	win.onclick = function() {
+		win.parentNode.removeChild(win);
+	}
+};
+

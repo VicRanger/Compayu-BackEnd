@@ -505,6 +505,33 @@ function setUserData(page){
 		// 初始化第一页
 		setCookie('page', 1);
 		changeFilter('time');
+		
+		count = document.getElementsByClassName('mythought_countp');
+		$.ajax({
+			url:'/api/user/',
+			type:'POST',//HTTP请求类型
+			timeout:5000,//超时时间设置为10秒；
+			dataType: "json",
+			async: false,
+			data: {
+				'token': getToken(),
+				'what' : 'thoughtcount',
+			},// data是必须的,可以空,不能没有
+			success:function(ret){
+				if (ret.code == '200'){
+					count[0].innerHTML = "总浏览量:"+ret.vnum;
+					count[1].innerHTML = "发送想法数:"+ret.tnum;
+				}
+				else if(ret.code=='403'){
+					isLogin = 'False';
+					alert("你的登录已过期,请重新登录");
+					jumpToLogin();
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				console.log(errorThrown);
+			}
+		});
 	}else if (page == 2){
 		
 	}
@@ -517,7 +544,7 @@ function createThoughtRow(thought, i){
 	
 	var row = document.createElement('div');
 	row.setAttribute('class', 'userCenter_thoughtRow');
-	
+	row.setAttribute('onclick', 'changeThought('+thought.id+','+thought.rich_text+')');
 	// 四种心情的颜色 happy #FFA8DF
 	var colorWithMood = {'happy': '#f88bff', 'angry': '#ffc28b', 'disgust': '#a1ff8b', 'sad': '#7182ff'};
 	
