@@ -418,7 +418,6 @@ function setUserData(page) {
 			girl.checked = true;
 		}
 		$('#userCenter_birthday').val(userinfo.birthday);
-
 		var mythought;
 		$.ajax({
 			url: '/api/user/',
