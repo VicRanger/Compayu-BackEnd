@@ -432,7 +432,6 @@ function setUserData(page) {
 				'where': 'mostView',
 			}, // data是必须的,可以空,不能没有
 			success: function (ret) {
-				alert(ret.msg);
 				if (ret.code == '200') {
 					mythought = ret;
 				} else if (ret.code == '403') {
