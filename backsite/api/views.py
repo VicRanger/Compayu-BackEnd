@@ -129,7 +129,6 @@ def getuserinfo(request):
                     response['data'] = mythought
                     response['code'] = '200'
                     response['msg'] = '最多人阅读Thought'
-                    return print(mythought)
                 elif where == 'newest':
                     mythought = Thought.objects.filter(id=uid).order_by('-create_time')
                     # 只取前两个

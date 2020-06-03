@@ -26,7 +26,7 @@ SECRET_KEY = '3tyt)@rb#39wsp_png8z0^1eh+b+v&p(dsvj*@z@1$)uaub-c*'
 DEBUG = True
 
 # 预测服务是否开启
-USE_PREDICTION = True
+USE_PREDICTION = False
 # 预测服务守护进程心跳
 PREDICTION_CHECK_TIME = 60*60*1
 # 预测服务守护进程关闭超时时间
