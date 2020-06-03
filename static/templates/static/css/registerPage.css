@@ -181,6 +181,14 @@ body{
 	align-items: center;
 }
 
+#register_ret{
+	width: 100%;
+	height: 65%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 #register_jitang{
 	width: 100%;
 	height: 60px;
