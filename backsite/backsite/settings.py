@@ -33,9 +33,7 @@ PREDICTION_CHECK_TIME = 60*60*1
 PREDICTION_CLOSE_TIME = 60*60*12
 
 
-ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1",
-                 "wte.wzz.ink", "cdn.wzz.ink", "localhost"]
-# STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
+ALLOWED_HOSTS = ["proj.wzz.ink", "127.0.0.1", "cdn.wzz.ink", "localhost"]
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 
 
@@ -87,7 +85,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     "http://127.0.0.1:5500",
-    "https://www.wzz.ink",
+    "https://proj.wzz.ink",
     "https://cdn.wzz.ink",
 )
 CORS_ALLOW_METHODS = (
