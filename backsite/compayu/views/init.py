@@ -1,14 +1,14 @@
 
 from compayu.models import Thought, Editor
 from user.models import User
-
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 class init(APIView):
     def get(self, request, format=None):
         if User.objects.all().count() <= 0:
-            newuser = User(password='123456', nickname='管理员', email='test@q.q',
+            newuser = User(password='123456', nickname='小朋友', email='test@qq.com',
                            signup_type='email', lastlogin=timezone.now(), signup_time=timezone.now())
             newuser.save()
             data = [

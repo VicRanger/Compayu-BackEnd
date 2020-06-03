@@ -95,7 +95,7 @@ if USE_PREDICTION:
 class classifyText(APIView):
     def post(self, request, format=None):
         query = request.data
-        global i, q
+        global q
         if USE_PREDICTION:
             print(query)
             module = q.get(True)

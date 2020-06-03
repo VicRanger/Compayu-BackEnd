@@ -28,12 +28,13 @@ DEBUG = True
 # 预测服务是否开启
 USE_PREDICTION = True
 # 预测服务守护进程心跳
-PREDICTION_CHECK_TIME = 51
+PREDICTION_CHECK_TIME = 60*60*1
 # 预测服务守护进程关闭超时时间
-PREDICTION_CLOSE_TIME = 100
+PREDICTION_CLOSE_TIME = 60*60*12
 
 
-ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1", "wte.wzz.ink", "cdn.wzz.ink"]
+ALLOWED_HOSTS = ["wte.wzz.moe", "127.0.0.1",
+                 "wte.wzz.ink", "cdn.wzz.ink", "localhost"]
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 # STATIC_ROOT = "/home/wwwroot/wte.wzz.ink/static"
 
@@ -54,8 +55,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'fei',  # Fei-app
-    'qiniustorage', #七牛云存储 by fei
-    'wangeditor', # wangEditor by fei
+    'qiniustorage',  # 七牛云存储 by fei
+    'wangeditor',  # wangEditor by fei
     'user',  # 用户管理
     'website',  # 网站相关信息
     'api',  # 接口，获取各种数据信息
@@ -159,7 +160,7 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
-            "charset": "utf8mb4", #设定charset以存储富文本中的表情
+            "charset": "utf8mb4",  # 设定charset以存储富文本中的表情
         }
     },
 
@@ -211,8 +212,6 @@ APPEND_SLASH = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-
 
 
 # 飞哥专场
