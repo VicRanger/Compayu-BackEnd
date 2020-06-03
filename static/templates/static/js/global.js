@@ -28,6 +28,11 @@ function jumpToForgetPassword(){
 	
 }
 
+//返回
+function jumpBack(){
+	window.history.go(-1);
+}
+
 //打开用户管理小列表
 function openUserList(){
 	window.open('/user/usercenter/?which=myinfo');
@@ -36,7 +41,6 @@ function openUserList(){
 //-----------顶部导航栏的处理代码也放在这里--------------
 function topNavInit(){
 	initShowNav();
-		
 	checkLogin();
 }
 
@@ -62,7 +66,6 @@ function topNavSlide(w){
 function checkLogin(){
 	// 检查islogin 的cookie判断是否登录
 	var isLogin = checkAcStatus();
-	
 	var p1 = document.getElementById("topNav_RegisterOrLogin");
 	var p2 = document.getElementById("userinfoContainer");
 	//console.log(isLogin);
@@ -258,7 +261,10 @@ function alert(data){
 	
 	// 确定绑定点击事件删除标签
 	win.onclick = function() {
-		win.parentNode.removeChild(win);
+		win.style.opacity = 0;
+		setTimeout(function(){
+			win.parentNode.removeChild(win);
+		},1000);
 	}
 };
 

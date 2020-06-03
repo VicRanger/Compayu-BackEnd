@@ -211,5 +211,6 @@
 	font-size: 0.5rem;
 	margin-bottom: 0.25rem;
 	opacity: 1;
+	color: rgba(255,255,255,0.8);
 	transition: all 0.2s ease;
 }
