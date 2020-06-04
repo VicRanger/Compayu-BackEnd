@@ -183,15 +183,14 @@ function getCookie(name) {
 
 function getToken(){
 	var url = location.search; //获取url中"?"符后的字串
+	
 	if (url.indexOf("?") != -1) { //判断是否有参数
-		var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
-		strs = str.split("="); //用等号进行分隔 （因为知道只有一个参数 
-		if(strs[0]=='token' && strs[1].length>0){
-			console.log('token',strs[1])
-			localStorage.setItem('token', strs[1]);
+		if(url.substr(1,5)=='token' && url.length>6){
+			localStorage.setItem('token', url.substring(7));
 		}
 	}
-    var data = localStorage.getItem('token');
+	var data = localStorage.getItem('token');
+	console.log(data);
 	if (data){
 		return data;
 	}
@@ -212,6 +211,7 @@ function checkAcStatus(){
 			'token' : getToken(),
 		},// data是必须的,可以空,不能没有
 		success:function(ret){
+			console.log(getToken());
 			isLogin = ret.data;
 			console.log("Account status: is Login? "+ isLogin);
 		},

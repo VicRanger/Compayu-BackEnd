@@ -146,7 +146,8 @@ function loginCheck(){
 				saveToken(data.token);
 				//更新顶部导航栏
 				//checkLogin();
-				jumpToIndex();
+				jumpToUsercenter();
+				// jumpToIndex();
 			}
 		},
 		error:function(xhr,type,errorThrown){

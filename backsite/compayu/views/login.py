@@ -10,8 +10,9 @@ from datetime import datetime, timedelta
 
 
 class login(APIView):
-    def get(self,request,format=None):
-        return Response({'msg':'该接口不支持GET方法'})
+    def get(self, request, format=None):
+        return Response({'msg': '该接口不支持GET方法'})
+
     def post(self, request, format=None):
         ret = {}
         query = request.data
@@ -37,7 +38,7 @@ class login(APIView):
         account = query.get("account")
         password = query.get("password")
         auto_login = query.get("auto_login")
-        use_auto_login = query.get("use_auto_login",False)
+        use_auto_login = query.get("use_auto_login", False)
         print(account, password, auto_login)
         logtype = ""
         user = None
@@ -87,8 +88,8 @@ class login(APIView):
             # 返回token值和其他数据
             ret["msg"] = "登入成功"
             ret["data"] = {
-                'token':token,
-                'id' :user.id
+                'token': token,
+                'id': user.id
             }
             ret['code'] = 1
             response = Response(ret)
@@ -98,7 +99,7 @@ class login(APIView):
                     response.set_cookie('token', token, max_age=age)
                     response.set_cookie('account', account, max_age=age)
                     response.set_cookie('password', password, max_age=age)
-                    response.set_cookie('user_id',user.id,max_age=age)
+                    response.set_cookie('user_id', user.id, max_age=age)
                 else:
                     response.set_cookie('token', 'null', max_age=age)
                     response.set_cookie('account', 'null', max_age=age)
@@ -110,10 +111,12 @@ class login(APIView):
         ret['code'] = -1
         return Response(ret)
 
+
 class logout(APIView):
-    def get(self,request,format=None):
-        return Response({'msg':'该接口不支持GET方法'})
-    def post(self,request,format=None):
+    def get(self, request, format=None):
+        return Response({'msg': '该接口不支持GET方法'})
+
+    def post(self, request, format=None):
         ret = {}
         # token = request.POST.get("token")
         # mytoken = UserToken.objects.filter(token=token)[0]
