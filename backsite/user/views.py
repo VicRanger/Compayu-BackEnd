@@ -139,6 +139,7 @@ def checkRegister(request):
         if count != 0:
             return render(request, 'registerPage.html', {'type': 'phone', 'suc': 'false', 'ret': '该号码已被注册'})
         # 保存到数据库，电话注册成功
+        print(nickname)
         newuser = models.User(password=upwd, nickname=nickname, phonenum=phone, signup_type='phone', lastlogin=timezone.now(), signup_time=timezone.now())
         newuser.save()
         user = models.User.objects.filter(phonenum=phone)[0]
