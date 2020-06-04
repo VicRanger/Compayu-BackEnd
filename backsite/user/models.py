@@ -35,8 +35,8 @@ class User(models.Model):
     objects = models.manager
 
     nickname = models.CharField(max_length=255, blank=True, null=True)
-    phonenum = models.CharField(max_length=11, blank=True, null=True)
-    email = models.EmailField(max_length=255, blank=True, null=True)
+    phonenum = models.CharField(max_length=11)
+    email = models.EmailField(max_length=255)
     wxopenid = models.CharField(max_length=255, blank=True, null=True)
     signup_type = models.CharField(max_length=255, blank=True, null=True)
     signup_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
