@@ -41,7 +41,6 @@ class Module:
             return
         print("[{}] Module<{}>: 正在关闭...".format(getTimeStr(),
                     self.name))
-        # proc = Popen("hub serving stop -p {}".format(self.port),shell=True,stdin=PIPE, stdout=PIPE, stderr=PIPE)
         if self.proc != None:
             self.proc.kill()
             self.proc = None
